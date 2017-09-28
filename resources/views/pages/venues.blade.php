@@ -126,7 +126,7 @@
         <span class="c-gray en">&gt;</span>
         Venues
 
-        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+        <a class="btn btn-success btn-refresh radius r" style="line-height:1.6em;margin-top:3px"
            href="javascript:location.replace(location.href);" title="Refresh"><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="Hui-article">

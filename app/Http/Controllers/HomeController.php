@@ -62,7 +62,10 @@ class HomeController extends Controller
     }
 
     public function showAddVenue(Request $request) {
-        return view('pages.add_venue');
+        $key = $this->generateRandomString(16);
+        return view('pages.add_venue', [
+            'key' => $key
+        ]);
     }
 
     public function showEditVenue(Request $request, $id) {
@@ -81,13 +84,30 @@ class HomeController extends Controller
             return "<h2>Oops! Error parsing this entry.</h2>";
         }
 
+        if(!empty($venue['photos'])) {
+            $photo_urls_base64 = '';
+            foreach($venue['photos'] as $key=>$url)
+            {
+                if($photo_urls_base64 == '') {
+                    $photo_urls_base64 = base64_encode($url);
+                } else {
+                    $photo_urls_base64 = $photo_urls_base64.",".base64_encode($url);
+                }
+            }
+        } else {
+            $photo_urls_base64 = '';
+        }
+
         return view('pages.edit_venue', [
             'venue' => $venue,
-            'key' => $venue['id']
+            'key' => $venue['id'],
+            'photo_urls' => $photo_urls_base64,
         ]);
     }
 
     public function addVenue(Request $request) {
+        $key = $request->input('key');
+
         if($request->has('name')) {
             $name = $request->input('name');
         } else {
@@ -132,6 +152,8 @@ class HomeController extends Controller
 
         if($request->has('airbnb')) {
             $airbnb = $request->input('airbnb');
+        } else {
+            $airbnb = '';
         }
 
         $num_of_seats = $request->input('num_of_seats');
@@ -160,12 +182,6 @@ class HomeController extends Controller
             $wifi = $request->input('wifi');
         } else {
             $wifi = false;
-        }
-
-        if($request->has('confirm')) {
-            $confirm = $request->input('confirm');
-        } else {
-            $confirm = false;
         }
 
 
@@ -288,13 +304,21 @@ class HomeController extends Controller
             }
         }
 
-
-//        $key = $this->database->getReference('venues')->push()->getKey();
-
-
         $photos = [];
+        $i = 0;
+        if($request->has('images')) {
+            $images_str = $request->input('images');
+            if(!empty($images_str)) {
+                $images_base64_array = explode(',', $images_str);
 
-        $key = $this->generateRandomString(16);
+                foreach ($images_base64_array as $base64) {
+                    $image_url = base64_decode($base64);
+                    $photos['image' . $i] = $image_url;
+                    $i++;
+                }
+            }
+        }
+
 
         $venue = [
             'name' => $name,
@@ -315,7 +339,7 @@ class HomeController extends Controller
             'close_hours' => $close_hours,
             'photos' => $photos,
 
-            'confirm' => $confirm
+            'confirm' => true
         ];
 
         $this->database->getReference('venues/'.$key)->set($venue);
@@ -351,6 +375,13 @@ class HomeController extends Controller
     public function editVenue(Request $request, $id) {
         $key = $id;
 
+        $reference = $this->database->getReference('/venues/'.$id);
+        $snapshot = $reference->getSnapshot();
+
+        $value = $snapshot->getValue();
+
+        $venue = collect($value);
+
         if($request->has('name')) {
             $name = $request->input('name');
         } else {
@@ -395,6 +426,8 @@ class HomeController extends Controller
 
         if($request->has('airbnb')) {
             $airbnb = $request->input('airbnb');
+        } else {
+            $airbnb = "";
         }
 
         $num_of_seats = $request->input('num_of_seats');
@@ -545,29 +578,49 @@ class HomeController extends Controller
             }
         }
 
+        if($request->has('confirm')) {
+            $confirm = $request->input('confirm');
+        } else {
+            $confirm = false;
+        }
+
         $photos = [];
 
-        $venue = [
-            'name' => $name,
-            'type' => $type,
-            'address' => $address,
-            'description' => $description,
-            'isPrivate' => $isPrivate,
-            'airbnb' => $airbnb,
-            'num_of_seats' => $num_of_seats,
-            'phone' => $phone,
-            'outdoor' => $outdoor,
-            'wifi' => $wifi,
-            'weblink' => $weblink,
-            'id' => $key,
-            'latitude' => $latitude,
-            'longitude' => $longitude,
-            'open_hours' => $open_hours,
-            'close_hours' => $close_hours,
-            'photos' => $photos,
+        $venue['name'] = $name;
+        $venue['type'] = $type;
+        $venue['address'] = $address;
+        $venue['description'] = $description;
+        $venue['isPrivate'] = $isPrivate;
+        $venue['airbnb'] = $airbnb;
+        $venue['num_of_seats'] = $num_of_seats;
+        $venue['phone'] = $phone;
+        $venue['outdoor'] = $outdoor;
+        $venue['wifi'] = $wifi;
+        $venue['weblink'] = $weblink;
+        $venue['id'] = $key;
+        $venue['latitude'] = $latitude;
+        $venue['longitude'] = $longitude;
+        $venue['open_hours'] = $open_hours;
+        $venue['close_hours'] = $close_hours;
+        $venue['confirm'] = $confirm;
 
-            'confirm' => true
-        ];
+        $i = 0;
+        if($request->has('images')) {
+            $images_str = $request->input('images');
+            if(!empty($images_str)) {
+                $images_base64_array = explode(',', $images_str);
+
+                foreach ($images_base64_array as $base64) {
+                    $image_url = base64_decode($base64);
+                    $photos['image' . $i] = $image_url;
+                    $i++;
+                }
+
+                if(count($photos) > 0) {
+                    $venue['photos'] = $photos;
+                }
+            }
+        }
 
         $this->database->getReference('venues/'.$key)->set($venue);
     }
