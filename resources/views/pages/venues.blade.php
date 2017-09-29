@@ -192,9 +192,11 @@
                             @endif
                         </td>
                         <td class="f-14 td-manage">
+                            @if(empty($v['confirm']) || $v['confirm'] == false)
                             <a style="text-decoration:none" onClick="venue_confirm(this,'{{$v["id"]}}')"
                                                       href="javascript:;" title="Verify"><i class="Hui-iconfont">
                                     &#xe6de;</i></a>
+                            @endif
                             <a style="text-decoration:none" class="ml-5"
                                onClick="venue_edit('Edit Venue','{{url("/venues")}}/{{$v["id"]}}','{{$v["id"]}}')" href="javascript:;" title="Edit Venue"><i
                                         class="Hui-iconfont">&#xe6df;</i></a>
@@ -270,29 +272,9 @@
                     console.log(data.msg);
                 },
             });
-        });
+        }, 'Ok', 'Cancel');
     }
 
-    /*资讯-审核*/
-    function venue_change(obj, id) {
-        layer.confirm('Are you sure to edit？', {
-                    btn: ['Yes', 'No', 'Cancel'],
-                    shade: false,
-                    closeBtn: 0
-                },
-                function () {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a class="c-primary" onClick="venue_start(this,id)" href="javascript:;" title="申请上线">申请上线</a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
-                    $(obj).remove();
-                    layer.msg('Confirm', {icon: 6, time: 1000});
-                },
-                function () {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a class="c-primary" onClick="venue_shenqing(this,id)" href="javascript:;" title="申请上线">申请上线</a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-danger radius">未通过</span>');
-                    $(obj).remove();
-                    layer.msg('未通过', {icon: 5, time: 1000});
-                });
-    }
     /*资讯-下架*/
     function venue_confirm(obj, id) {
         layer.confirm('Are you sure to confirm？', {

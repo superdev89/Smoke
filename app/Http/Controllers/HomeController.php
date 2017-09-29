@@ -108,6 +108,12 @@ class HomeController extends Controller
     public function addVenue(Request $request) {
         $key = $request->input('key');
 
+        if($request->has('confirm')) {
+            $confirm = $request->input('confirm');
+        } else {
+            $confirm = false;
+        }
+
         if($request->has('name')) {
             $name = $request->input('name');
         } else {
@@ -339,7 +345,7 @@ class HomeController extends Controller
             'close_hours' => $close_hours,
             'photos' => $photos,
 
-            'confirm' => true
+            'confirm' => $confirm,
         ];
 
         $this->database->getReference('venues/'.$key)->set($venue);
@@ -584,7 +590,7 @@ class HomeController extends Controller
             $confirm = false;
         }
 
-        $photos = [];
+
 
         $venue['name'] = $name;
         $venue['type'] = $type;
@@ -604,10 +610,13 @@ class HomeController extends Controller
         $venue['close_hours'] = $close_hours;
         $venue['confirm'] = $confirm;
 
+
         $i = 0;
         if($request->has('images')) {
             $images_str = $request->input('images');
             if(!empty($images_str)) {
+                $photos = [];
+
                 $images_base64_array = explode(',', $images_str);
 
                 foreach ($images_base64_array as $base64) {

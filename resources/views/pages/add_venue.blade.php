@@ -34,6 +34,16 @@
         <input type="hidden" name="key" value="{{$key}}">
         <input type="hidden" name="images" id="images" value="">
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Confirm：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="check-box">
+                    <input type="checkbox" id="venue_confirm" name="confirm">
+                    <label for="checkbox-1">&nbsp;</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>Name：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="" placeholder="" id="venue_name" name="name">
@@ -239,7 +249,7 @@
 <script type="text/javascript" src="<?= asset('lib/webuploader/0.1.5/webuploader.min.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/ueditor.config.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/ueditor.all.min.js') ?>"></script>
-<script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js') ?>"></script>
+{{--<script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js') ?>"></script>--}}
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiMBFdkcUd7l5gLA-6EXnDrjtlBikTvfU&libraries=places&callback=initAutocomplete"
         async defer></script>
@@ -427,9 +437,13 @@
                     url: "{{url('/venue')}}",
                     success: function (data) {
                         layer.msg('Successfully added!', {icon: 1, time: 1000});
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.$('.btn-refresh').click();
-                        parent.layer.close(index);
+//                        var index = parent.layer.getFrameIndex(window.name);
+//                        parent.$('.btn-refresh').click();
+//                        parent.layer.close(index);
+
+//                        location.replace(location.href);
+                        parent.location.reload();
+
                     },
                     error: function (XmlHttpRequest, textStatus, errorThrown) {
                         layer.msg('error!', {icon: 1, time: 1000});

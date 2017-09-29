@@ -335,7 +335,7 @@
 <script type="text/javascript" src="<?= asset('lib/webuploader/0.1.5/webuploader.min.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/ueditor.config.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/ueditor.all.min.js') ?>"></script>
-<script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js') ?>"></script>
+{{--<script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js') ?>"></script>--}}
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiMBFdkcUd7l5gLA-6EXnDrjtlBikTvfU&libraries=places&callback=initAutocomplete"
         async defer></script>
@@ -519,12 +519,15 @@
             submitHandler: function (form) {
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "{{url('/venue')}}",
+                    url: "{{url('/venues')}}/{{$key}}",
                     success: function (data) {
-                        layer.msg('Successfully added!', {icon: 1, time: 1000});
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.$('.btn-refresh').click();
-                        parent.layer.close(index);
+                        console.log(data);
+
+                        layer.msg('Successfully changed!', {icon: 1, time: 1000});
+//                        var index = parent.layer.getFrameIndex(window.name);
+//                        parent.$('.btn-refresh').click();
+//                        parent.layer.close(index);
+                        parent.location.reload();
                     },
                     error: function (XmlHttpRequest, textStatus, errorThrown) {
                         layer.msg('error!', {icon: 1, time: 1000});
