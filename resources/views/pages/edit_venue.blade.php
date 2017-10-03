@@ -255,7 +255,7 @@
             <label class="form-label col-xs-4 col-sm-2">Airbnb：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['airbnb']))
-                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="" class="input-text"
+                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="http://" class="input-text"
                        style="width:90%">
                     @else
                     <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="{{$venue['airbnb']}}" class="input-text"
@@ -267,7 +267,7 @@
             <label class="form-label col-xs-4 col-sm-2">Weblink：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['weblink']))
-                <input type="text" name="weblink" id="venue_weblink" placeholder="" value="" class="input-text"
+                <input type="text" name="weblink" id="venue_weblink" placeholder="" value="http://" class="input-text"
                        style="width:90%">
                     @else
                     <input type="text" name="weblink" id="venue_weblink" placeholder="" value="{{$venue['weblink']}}" class="input-text"
