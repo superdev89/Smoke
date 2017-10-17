@@ -106,16 +106,19 @@
                 @endif
 
                 @if(empty($venue['latitude']))
-                    <input type="hidden" name="lat" id="venue_lat">
+                    <input type="text" class="input-text" name="lat" id="venue_lat" readonly="readonly">
                 @else
-                    <input type="hidden" name="lat" id="venue_lat" value="{{$venue['latitude']}}">
+                    <input type="text" class="input-text" name="lat" id="venue_lat" value="{{$venue['latitude']}}" readonly="readonly">
                 @endif
 
                 @if(empty($venue['longitude']))
-                    <input type="hidden" name="lng" id="venue_lng">
+                    <input type="text" class="input-text" name="lng" id="venue_lng" readonly="readonly">
                 @else
-                    <input type="hidden" name="lng" id="venue_lng" value="{{$venue['longitude']}}">
+                    <input type="text" class="input-text" name="lng" id="venue_lng" value="{{$venue['longitude']}}" readonly="readonly">
                 @endif
+
+                <div id="googleMap" style="height: 400px; width: 100%;"></div>
+
             </div>
         </div>
         <div class="row cl">
@@ -337,7 +340,7 @@
 <script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/ueditor.all.min.js') ?>"></script>
 {{--<script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js') ?>"></script>--}}
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiMBFdkcUd7l5gLA-6EXnDrjtlBikTvfU&libraries=places&callback=initAutocomplete"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSJff_oQeFbYObvFfMCUPdkzYf79LYkLo&libraries=places&callback=initAutocomplete"
         async defer></script>
 <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
 <script>
@@ -358,6 +361,11 @@
     var storageRef = storage.ref();
 
 </script>
+
+<script>
+        
+</script>
+
 <script type="text/javascript">
     // This example displays an address form, using the autocomplete feature
     // of the Google Places API to help users fill in the information.
@@ -376,6 +384,11 @@
 //        postal_code: 'short_name'
     };
 
+    var lng = parseFloat("{!!$venue['longitude']!!}");
+    var lat = parseFloat("{!!$venue['latitude']!!}");
+    var marker;
+    var map;
+
     function initAutocomplete() {
         // Create the autocomplete object, restricting the search to geographical
         // location types.
@@ -386,6 +399,26 @@
         // When the user selects an address from the dropdown, populate the address
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
+
+
+        var myCenter = new google.maps.LatLng(lat,lng);
+            var mapProp= {
+                center:myCenter,
+                zoom:14
+            };
+            map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+            marker = new google.maps.Marker({position:myCenter});
+            marker.setMap(map);
+            // google.maps.event.addListener(map, 'click', function(event) {
+            //     marker.position = event.latLng;
+            //     marker.setMap(map);
+            //     var oLng = document.getElementById("olng");
+            //     var oLat = document.getElementById("olat");
+            //     console.log(oLng);
+            //     console.log(oLat);
+            //     oLng.value = event.latLng.lng();
+            //     oLat.value = event.latLng.lat();
+            // });
     }
 
     function fillInAddress() {
@@ -393,8 +426,15 @@
         var place = autocomplete.getPlace();
 
         console.log(place.geometry.location.lat(), place.geometry.location.lng());
-        document.getElementById("venue_lat").value = place.geometry.location.lat();
-        document.getElementById("venue_lng").value = place.geometry.location.lng();
+        var lat = place.geometry.location.lat();
+        var lng = place.geometry.location.lng();
+        document.getElementById("venue_lat").value = lat;
+        document.getElementById("venue_lng").value = lng;
+
+        marker.position = new google.maps.LatLng(lat, lng);
+        console.log("new marker position: " + marker.position);
+        marker.setMap(map);
+        map.setCenter(marker.position);
 
         for (var component in componentForm) {
             document.getElementById(component).value = '';

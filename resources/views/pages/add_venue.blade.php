@@ -69,8 +69,9 @@
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>Address：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="" placeholder="" id="venue_address" name="address">
-                <input type="hidden" name="lat" id="venue_lat">
-                <input type="hidden" name="lng" id="venue_lng">
+                <input type="text" class="input-text" name="lat" id="venue_lat" readonly="readonly">
+                <input type="text" class="input-text" name="lng" id="venue_lng" readonly="readonly">
+                <div id="googleMap" style="height: 400px; width: 100%;"></div>
             </div>
         </div>
         <div class="row cl">
@@ -200,23 +201,6 @@
             <label class="form-label col-xs-4 col-sm-2">Photo Upload：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="file" id="venue_files" onchange="getFileName(this)" accept=".png, .jpg, .bmp, .JPEG, .JPG, .svg, .tiff, .gif">
-
-                {{--<div class="uploader-list-container">--}}
-                    {{--<div class="queueList">--}}
-                        {{--<div id="dndArea" class="placeholder">--}}
-                            {{--<div id="filePicker-2"></div>--}}
-                            {{--<p>Upload venue photos</p>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="statusBar" style="display:none;">--}}
-                        {{--<div class="progress"><span class="text">0%</span> <span class="percentage"></span></div>--}}
-                        {{--<div class="info"></div>--}}
-                        {{--<div class="btns">--}}
-                            {{--<div id="filePicker2"></div>--}}
-                            {{--<div class="uploadBtn">Upload</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
             </div>
         </div>
 
@@ -251,7 +235,7 @@
 <script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/ueditor.all.min.js') ?>"></script>
 {{--<script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js') ?>"></script>--}}
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiMBFdkcUd7l5gLA-6EXnDrjtlBikTvfU&libraries=places&callback=initAutocomplete"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSJff_oQeFbYObvFfMCUPdkzYf79LYkLo&libraries=places&callback=initAutocomplete"
         async defer></script>
 <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
 <script>
@@ -291,6 +275,11 @@
 //        postal_code: 'short_name'
     };
 
+    var lng = 0;
+    var lat = 0;
+    var marker;
+    var map;
+
     function initAutocomplete() {
         // Create the autocomplete object, restricting the search to geographical
         // location types.
@@ -301,6 +290,15 @@
         // When the user selects an address from the dropdown, populate the address
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
+
+        var myCenter = new google.maps.LatLng(lat,lng);
+        var mapProp= {
+            center:myCenter,
+            zoom:14
+        };
+        map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+        marker = new google.maps.Marker({position:myCenter});
+        
     }
 
 
@@ -309,8 +307,15 @@
         var place = autocomplete.getPlace();
 
         console.log(place.geometry.location.lat(), place.geometry.location.lng());
-        document.getElementById("venue_lat").value = place.geometry.location.lat();
-        document.getElementById("venue_lng").value = place.geometry.location.lng();
+        var lat = place.geometry.location.lat();
+        var lng = place.geometry.location.lng();
+        document.getElementById("venue_lat").value = lat;
+        document.getElementById("venue_lng").value = lng;
+
+        marker.position = new google.maps.LatLng(lat, lng);
+        console.log("new marker position: " + marker.position);
+        marker.setMap(map);
+        map.setCenter(marker.position);
 
         for (var component in componentForm) {
             document.getElementById(component).value = '';
