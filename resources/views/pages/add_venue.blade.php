@@ -58,10 +58,28 @@
 				</select>
 				</span></div>
         </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Venue Type：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+                <select name="estateType" id="venue_estate_type" class="select">
+                    <option value="smokingVenue">Smoking Venue</option>
+                    <option value="lodgingVenue">Lodging Venue</option>
+                </select>
+                </span></div>
+        </div>
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Description：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="" placeholder="" id="venue_description" name="description">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Membership Detail：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="venue_membership_detail" name="membershipDetail">
             </div>
         </div>
 

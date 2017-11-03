@@ -41,44 +41,6 @@
             <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                 <ul class="cl">
                     <li>Administrator</li>
-                    {{--<li class="dropDown dropDown_hover">--}}
-                    {{--<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>--}}
-                    {{--<ul class="dropDown-menu menu radius box-shadow">--}}
-                    {{--<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>--}}
-                    {{--<li>--}}
-                    {{--<a href="#">切换账户</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                    {{--<a href="#">退出</a>--}}
-                    {{--</li>--}}
-                    {{--</ul>--}}
-                    {{--</li>--}}
-                    {{--<li id="Hui-msg">--}}
-                    {{--<a href="#" title="消息">--}}
-                    {{--<span class="badge badge-danger">1</span>--}}
-                    {{--<i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a>--}}
-                    {{--</li>--}}
-                    {{--<li id="Hui-skin" class="dropDown right dropDown_hover">--}}
-                    {{--<a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>--}}
-                    {{--<ul class="dropDown-menu menu radius box-shadow">--}}
-                    {{--<li>--}}
-                    {{--<a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                    {{--<a href="javascript:;" data-val="blue" title="蓝色">蓝色</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                    {{--<a href="javascript:;" data-val="green" title="绿色">绿色</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                    {{--<a href="javascript:;" data-val="red" title="红色">红色</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                    {{--<a href="javascript:;" data-val="yellow" title="黄色">黄色</a>--}}
-                    {{--</li>--}}
-                    {{--<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>--}}
-                    {{--</ul>--}}
-                    {{--</li>--}}
                 </ul>
             </nav>
         </div>
@@ -175,6 +137,7 @@
                     <tbody>
 
                     @forelse($venues as $v)
+                    @if(!empty($v['confirm']) && $v['confirm'] == true)
                     <tr class="text-c">
                         <td><input type="checkbox" value="" name=""></td>
                         <td>{{$v["type"]}}</td>
@@ -203,6 +166,67 @@
                             <a style="text-decoration:none" class="ml-5" onClick="venue_del(this,'{{$v["id"]}}')"
                                href="javascript:;" title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
                     </tr>
+                    @endif
+                    @empty
+                    <tr class="text-c">
+                        <td colspan="11">No venues</td>
+                    </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <br><br>
+            <!-- unverified venues table -->
+            <div class="mt-20">
+                <table class="table table-border table-bordered table-bg table-hover table-sort">
+                    <thead>
+                    <tr class="text-c">
+                        <th width="25"><input type="checkbox" name="" value=""></th>
+                        <th width="120">Name</th>
+                        <th width="80">Type</th>
+                        <th width="120">Address</th>
+                        <th>Description</th>
+                        <th width="120">Seats</th>
+                        <th width="75">Phone</th>
+                        <th width="80">Weblink</th>
+                        <th width="30">Verify</th>
+                        <th width="60">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @forelse($venues as $v)
+                    @if(empty($v['confirm']) || $v['confirm'] == false)
+                    <tr class="text-c">
+                        <td><input type="checkbox" value="" name=""></td>
+                        <td>{{$v["type"]}}</td>
+                        <td class="text-l"><u style="cursor:pointer" class="text-primary"
+                                              onClick="venue_edit('Edit Venue','{{url("/venues/")}}/{{$v["id"]}}','{{$v["id"]}}')"
+                                              title="Edit">{{$v["name"]}}</u></td>
+                        <td>{{$v["address"]}}</td>
+                        <td>{{str_limit($v["description"], $limit = 150, $end = '...')}}</td>
+                        <td>{{$v["num_of_seats"]}}</td>
+                        <td>{{$v["phone"]}}</td>
+                        <td>{{$v["weblink"]}}</td>
+                        <td class="td-status">
+                            @if(!empty($v['confirm']) && $v['confirm'] == true)
+                            <span class="label label-success radius">verified</span>
+                            @endif
+                        </td>
+                        <td class="f-14 td-manage">
+                            @if(empty($v['confirm']) || $v['confirm'] == false)
+                            <a style="text-decoration:none" onClick="venue_confirm(this,'{{$v["id"]}}')"
+                                                      href="javascript:;" title="Verify"><i class="Hui-iconfont">
+                                    &#xe6de;</i></a>
+                            @endif
+                            <a style="text-decoration:none" class="ml-5"
+                               onClick="venue_edit('Edit Venue','{{url("/venues")}}/{{$v["id"]}}','{{$v["id"]}}')" href="javascript:;" title="Edit Venue"><i
+                                        class="Hui-iconfont">&#xe6df;</i></a>
+                            <a style="text-decoration:none" class="ml-5" onClick="venue_del(this,'{{$v["id"]}}')"
+                               href="javascript:;" title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                    </tr>
+                    @endif
                     @empty
                     <tr class="text-c">
                         <td colspan="11">No venues</td>

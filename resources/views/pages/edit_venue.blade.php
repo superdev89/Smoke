@@ -82,6 +82,27 @@
 				</select>
 				</span></div>
         </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Venue Type：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+                <select name="estateType" id="venue_estate_type" class="select">
+                    @if(empty($venue['estateType']))
+                        <option value="smokingVenue">Smoking Venue</option>
+                        <option value="lodgingVenue">Lodging Venue</option>
+                    @else
+                        @if($venue['estateType'] == 'smokingVenue')
+                            <option value="smokingVenue" selected>Smoking Venue</option>
+                            <option value="lodgingVenue">Lodging Venue</option>
+                        @else
+                            <option value="smokingVenue">Smoking Venue</option>
+                            <option value="lodgingVenue" selected>Lodging Venue</option>
+                        @endif
+                    @endif
+                </select>
+                </span></div>
+        </div>
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Description：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -91,6 +112,19 @@
                 @else
                     <input type="text" class="input-text" value="{{$venue['name']}}" placeholder=""
                            id="venue_description" name="description">
+                @endif
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Membership Detail：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                @if(empty($venue['membershipDetail']))
+                    <input type="text" class="input-text" value="" placeholder="" id="venue_membership_detail"
+                           name="membershipDetail">
+                @else
+                    <input type="text" class="input-text" value="{{$venue['membershipDetail']}}" placeholder=""
+                           id="venue_membership_detail" name="membershipDetail">
                 @endif
             </div>
         </div>

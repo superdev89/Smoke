@@ -144,6 +144,12 @@ class HomeController extends Controller
             $description = '';
         }
 
+        if($request->has('membershipDetail')) {
+            $membershipDetail = $request->input('membershipDetail');
+        } else {
+            $membershipDetail = '';
+        }
+
         if($request->has('public')) {
             $public = $request->input('public');
 
@@ -164,7 +170,7 @@ class HomeController extends Controller
 
         $num_of_seats = $request->input('num_of_seats');
         $type = $request->input('type');
-
+        $estateType = $request->input('estateType');
 
         if($request->has('phone')) {
             $phone = $request->input('phone');
@@ -329,8 +335,10 @@ class HomeController extends Controller
         $venue = [
             'name' => $name,
             'type' => $type,
+            'estateType' => $estateType,
             'address' => $address,
             'description' => $description,
+            'membershipDetail' => $membershipDetail,
             'isPrivate' => $isPrivate,
             'airbnb' => $airbnb,
             'num_of_seats' => $num_of_seats,
@@ -418,6 +426,12 @@ class HomeController extends Controller
             $description = '';
         }
 
+        if($request->has('membershipDetail')) {
+            $membershipDetail = $request->input('membershipDetail');
+        } else {
+            $membershipDetail = '';
+        }
+
         if($request->has('public')) {
             $public = $request->input('public');
 
@@ -438,6 +452,7 @@ class HomeController extends Controller
 
         $num_of_seats = $request->input('num_of_seats');
         $type = $request->input('type');
+        $estateType = $request->input('estateType');
 
 
         if($request->has('phone')) {
@@ -594,8 +609,10 @@ class HomeController extends Controller
 
         $venue['name'] = $name;
         $venue['type'] = $type;
+        $venue['estateType'] = $estateType;
         $venue['address'] = $address;
         $venue['description'] = $description;
+        $venue['membershipDetail'] = $membershipDetail;
         $venue['isPrivate'] = $isPrivate;
         $venue['airbnb'] = $airbnb;
         $venue['num_of_seats'] = $num_of_seats;
