@@ -49,15 +49,7 @@
                 <input type="text" class="input-text" value="" placeholder="" id="venue_name" name="name">
             </div>
         </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">Type：</label>
-            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="type" id="venue_type" class="select">
-					<option value="marijuana">Marijuana</option>
-					<option value="cigar">Cigar</option>
-				</select>
-				</span></div>
-        </div>
+        <input type="hidden" name="type" value="marijuana">
 
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Venue Type：</label>
@@ -101,15 +93,8 @@
                 </div>
             </div>
         </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">Public：</label>
-            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                <div class="check-box">
-                    <input type="checkbox" id="venue_public" name="public">
-                    <label for="checkbox-1">&nbsp;</label>
-                </div>
-            </div>
-        </div>
+        <input type="hidden" name="public" value="0">
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Wifi：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
@@ -195,7 +180,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Airbnb：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="http://" class="input-text"
+                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="" class="input-text"
                        style="width:90%">
             </div>
         </div>
@@ -316,7 +301,17 @@
         };
         map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
         marker = new google.maps.Marker({position:myCenter});
-        
+
+        google.maps.event.addListener(map, 'click', function(event) {
+            marker.position = event.latLng;
+            marker.setMap(map);
+            var oLng = document.getElementById("venue_lng");
+            var oLat = document.getElementById("venue_lat");
+            console.log(oLng);
+            console.log(oLat);
+            oLng.value = event.latLng.lng();
+            oLat.value = event.latLng.lat();
+        });
     }
 
 

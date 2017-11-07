@@ -63,25 +63,8 @@
                 @endif
             </div>
         </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">Type：</label>
-            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="type" id="venue_type" class="select">
-                    @if(empty($venue['type']))
-                        <option value="marijuana">Marijuana</option>
-                        <option value="cigar">Cigar</option>
-                    @else
-                        @if($venue['type'] == 'marijuana')
-                            <option value="marijuana" selected>Marijuana</option>
-                            <option value="cigar">Cigar</option>
-                        @else
-                            <option value="marijuana">Marijuana</option>
-                            <option value="cigar" selected>Cigar</option>
-                        @endif
-                    @endif
-				</select>
-				</span></div>
-        </div>
+        <input type="hidden" name="type" id="venue_type" value="marijuana">
+
 
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Venue Type：</label>
@@ -169,19 +152,7 @@
                 </div>
             </div>
         </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">Public：</label>
-            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                <div class="check-box">
-                    @if(!empty($venue['isPrivate']) && $venue['isPrivate'] == true)
-                        <input type="checkbox" id="venue_public" name="public">
-                    @else
-                        <input type="checkbox" id="venue_public" name="public" checked>
-                    @endif
-                    <label for="checkbox-1">&nbsp;</label>
-                </div>
-            </div>
-        </div>
+        <input type="hidden" name="public" value="0">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Wifi：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
@@ -292,7 +263,7 @@
             <label class="form-label col-xs-4 col-sm-2">Airbnb：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['airbnb']))
-                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="http://" class="input-text"
+                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="" class="input-text"
                        style="width:90%">
                     @else
                     <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="{{$venue['airbnb']}}" class="input-text"
@@ -443,16 +414,16 @@
             map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
             marker = new google.maps.Marker({position:myCenter});
             marker.setMap(map);
-            // google.maps.event.addListener(map, 'click', function(event) {
-            //     marker.position = event.latLng;
-            //     marker.setMap(map);
-            //     var oLng = document.getElementById("olng");
-            //     var oLat = document.getElementById("olat");
-            //     console.log(oLng);
-            //     console.log(oLat);
-            //     oLng.value = event.latLng.lng();
-            //     oLat.value = event.latLng.lat();
-            // });
+             google.maps.event.addListener(map, 'click', function(event) {
+                 marker.position = event.latLng;
+                 marker.setMap(map);
+                 var oLng = document.getElementById("venue_lng");
+                 var oLat = document.getElementById("venue_lat");
+                 console.log(oLng);
+                 console.log(oLat);
+                 oLng.value = event.latLng.lng();
+                 oLat.value = event.latLng.lat();
+             });
     }
 
     function fillInAddress() {

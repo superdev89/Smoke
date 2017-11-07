@@ -93,22 +93,6 @@
     </nav>
     <div class="Hui-article">
         <article class="cl pd-20">
-            {{--<div class="text-c">--}}
-				{{--<span class="select-box inline">--}}
-				{{--<select name="" class="select">--}}
-					{{--<option value="0">All</option>--}}
-					{{--<option value="1">Marijuana</option>--}}
-					{{--<option value="2">Cigar</option>--}}
-				{{--</select>--}}
-				{{--</span>--}}
-                {{--Date：--}}
-                {{--<input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})" id="logmin" class="input-text Wdate" style="width:120px;">--}}
-                {{-----}}
-                {{--<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d'})" id="logmax" class="input-text Wdate" style="width:120px;">--}}
-                {{--<input type="text" name="" id="" placeholder=" Keyword" style="width:250px" class="input-text">--}}
-                {{--<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> Search--}}
-                {{--</button>--}}
-            {{--</div>--}}
             <div class="cl pd-5 bg-1 bk-gray mt-20">
 				<span class="l">
 				{{--<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> Delete</a>--}}
@@ -118,6 +102,7 @@
 				</span>
                 <span class="r">Result：<strong>{{count($venues)}}</strong></span>
             </div>
+            <h3>Verified Venues & Uploaded Venues Awaiting Verification</h3>
             <div class="mt-20">
                 <table class="table table-border table-bordered table-bg table-hover table-sort">
                     <thead>
@@ -137,7 +122,7 @@
                     <tbody>
 
                     @forelse($venues as $v)
-                    @if(!empty($v['confirm']) && $v['confirm'] == true)
+                    {{--@if(!empty($v['confirm']) && $v['confirm'] == true)--}}
                     <tr class="text-c">
                         <td><input type="checkbox" value="" name=""></td>
                         <td>{{$v["type"]}}</td>
@@ -166,7 +151,7 @@
                             <a style="text-decoration:none" class="ml-5" onClick="venue_del(this,'{{$v["id"]}}')"
                                href="javascript:;" title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
                     </tr>
-                    @endif
+                    {{--@endif--}}
                     @empty
                     <tr class="text-c">
                         <td colspan="11">No venues</td>
@@ -178,6 +163,7 @@
 
             <br><br>
             <!-- unverified venues table -->
+            <h3>Pending Venues</h3>
             <div class="mt-20">
                 <table class="table table-border table-bordered table-bg table-hover table-sort">
                     <thead>
@@ -190,6 +176,7 @@
                         <th width="120">Seats</th>
                         <th width="75">Phone</th>
                         <th width="80">Weblink</th>
+                        <th width="50">Uploaded Time</th>
                         <th width="30">Verify</th>
                         <th width="60">Action</th>
                     </tr>
@@ -209,6 +196,11 @@
                         <td>{{$v["num_of_seats"]}}</td>
                         <td>{{$v["phone"]}}</td>
                         <td>{{$v["weblink"]}}</td>
+                        <td>
+                            @if(!empty($v['time']))
+                            {{date('Y-m-d H:i:s',$v["time"])}}
+                            @endif
+                        </td>
                         <td class="td-status">
                             @if(!empty($v['confirm']) && $v['confirm'] == true)
                             <span class="label label-success radius">verified</span>
