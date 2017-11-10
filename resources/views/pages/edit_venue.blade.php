@@ -35,7 +35,7 @@
         <input type="hidden" name="images" id="images" value="">
         {{--@if(!empty($photo_urls))--}}
         {{--<input type="hidden" name="old_images" value="{{$photo_urls}}">--}}
-            {{--{{$photo_urls}}--}}
+        {{--{{$photo_urls}}--}}
         {{--@endif--}}
 
         <div class="row cl">
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <div class="row cl">
+        <div class="row cl @if($venue['estateType'] != 'smokingVenue') hide @endif" id="membership_row">
             <label class="form-label col-xs-4 col-sm-2">Membership Detail：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['membershipDetail']))
@@ -125,13 +125,15 @@
                 @if(empty($venue['latitude']))
                     <input type="text" class="input-text" name="lat" id="venue_lat" readonly="readonly">
                 @else
-                    <input type="text" class="input-text" name="lat" id="venue_lat" value="{{$venue['latitude']}}" readonly="readonly">
+                    <input type="text" class="input-text" name="lat" id="venue_lat" value="{{$venue['latitude']}}"
+                           readonly="readonly">
                 @endif
 
                 @if(empty($venue['longitude']))
                     <input type="text" class="input-text" name="lng" id="venue_lng" readonly="readonly">
                 @else
-                    <input type="text" class="input-text" name="lng" id="venue_lng" value="{{$venue['longitude']}}" readonly="readonly">
+                    <input type="text" class="input-text" name="lng" id="venue_lng" value="{{$venue['longitude']}}"
+                           readonly="readonly">
                 @endif
 
                 <div id="googleMap" style="height: 400px; width: 100%;"></div>
@@ -251,34 +253,38 @@
             <label class="form-label col-xs-4 col-sm-2">Phone：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['phone']))
-                <input type="text" name="phone" id="venue_phone" placeholder="" value="" class="input-text"
-                       style="width:90%">
-                @else
-                    <input type="text" name="phone" id="venue_phone" placeholder="" value="{{$venue['phone']}}" class="input-text"
+                    <input type="text" name="phone" id="venue_phone" placeholder="" value="" class="input-text"
                            style="width:90%">
-                    @endif
+                @else
+                    <input type="text" name="phone" id="venue_phone" placeholder="" value="{{$venue['phone']}}"
+                           class="input-text"
+                           style="width:90%">
+                @endif
             </div>
         </div>
-        <div class="row cl">
+        <div class="row cl @if($venue['estateType'] == 'smokingVenue') hide @endif" id="airbnb_row">
             <label class="form-label col-xs-4 col-sm-2">Airbnb：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['airbnb']))
-                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="" class="input-text"
-                       style="width:90%">
-                    @else
-                    <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="{{$venue['airbnb']}}" class="input-text"
+                    <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="" class="input-text"
                            style="width:90%">
-                    @endif
+                @else
+                    <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="{{$venue['airbnb']}}"
+                           class="input-text"
+                           style="width:90%">
+                @endif
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Weblink：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['weblink']))
-                <input type="text" name="weblink" id="venue_weblink" placeholder="" value="http://" class="input-text"
-                       style="width:90%">
-                    @else
-                    <input type="text" name="weblink" id="venue_weblink" placeholder="" value="{{$venue['weblink']}}" class="input-text"
+                    <input type="text" name="weblink" id="venue_weblink" placeholder="" value="http://"
+                           class="input-text"
+                           style="width:90%">
+                @else
+                    <input type="text" name="weblink" id="venue_weblink" placeholder="" value="{{$venue['weblink']}}"
+                           class="input-text"
                            style="width:90%">
                 @endif
             </div>
@@ -311,7 +317,8 @@
             <label class="form-label col-xs-4 col-sm-2">Photo Upload：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <div class="uploader-list-container">
-                    <input type="file" id="venue_files" onchange="getFileName(this)" accept=".png, .jpg, .bmp, .JPEG, .JPG, .svg, .tiff, .gif">
+                    <input type="file" id="venue_files" onchange="getFileName(this)"
+                           accept=".png, .jpg, .bmp, .JPEG, .JPG, .svg, .tiff, .gif">
                 </div>
             </div>
         </div>
@@ -332,7 +339,7 @@
 <script type="text/javascript" src="<?= asset('lib/jquery/1.9.1/jquery.min.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('lib/layer/2.4/layer.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('static/h-ui/js/H-ui.min.js') ?>"></script>
-<script type="text/javascript" src="<?= asset('static/h-ui.admin/js/H-ui.admin.js') ?>"></script>
+<!--script type="text/javascript" src="<?= asset('static/h-ui.admin/js/H-ui.admin.js') ?>"></script-->
 <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
@@ -367,11 +374,11 @@
 
 </script>
 
-<script>
-        
-</script>
-
 <script type="text/javascript">
+
+    var house_icon = '../image/house_icon.png';
+    var hotel_icon = '../image/hotel_icon.png';
+
     // This example displays an address form, using the autocomplete feature
     // of the Google Places API to help users fill in the information.
 
@@ -406,24 +413,33 @@
         autocomplete.addListener('place_changed', fillInAddress);
 
 
-        var myCenter = new google.maps.LatLng(lat,lng);
-            var mapProp= {
-                center:myCenter,
-                zoom:14
-            };
-            map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-            marker = new google.maps.Marker({position:myCenter});
+        var myCenter = new google.maps.LatLng(lat, lng);
+        var mapProp = {
+            center: myCenter,
+            zoom: 14
+        };
+        map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+
+        marker = new google.maps.Marker({position: myCenter});
+
+        @if($venue['estateType'] == 'smokingVenue')
+        marker.setIcon(house_icon);
+        @else
+        marker.setIcon(hotel_icon);
+        @endif
+
+        marker.setMap(map);
+        google.maps.event.addListener(map, 'click', function (event) {
+            marker.position = event.latLng;
             marker.setMap(map);
-             google.maps.event.addListener(map, 'click', function(event) {
-                 marker.position = event.latLng;
-                 marker.setMap(map);
-                 var oLng = document.getElementById("venue_lng");
-                 var oLat = document.getElementById("venue_lat");
-                 console.log(oLng);
-                 console.log(oLat);
-                 oLng.value = event.latLng.lng();
-                 oLat.value = event.latLng.lat();
-             });
+            var oLng = document.getElementById("venue_lng");
+            var oLat = document.getElementById("venue_lat");
+            console.log(oLng);
+            console.log(oLat);
+            oLng.value = event.latLng.lng();
+            oLat.value = event.latLng.lat();
+        });
     }
 
     function fillInAddress() {
@@ -442,8 +458,12 @@
         map.setCenter(marker.position);
 
         for (var component in componentForm) {
-            document.getElementById(component).value = '';
-            document.getElementById(component).disabled = false;
+
+            var comp_obj = document.getElementById(component);
+            if (comp_obj) {
+                comp_obj.value = '';
+                comp_obj.disabled = false;
+            }
         }
 
         // Get each component of the address from the place details
@@ -524,11 +544,11 @@
                     var base64url = btoa(downloadURL);
                     console.log("base64:", base64url);
 
-                    $('#fileList').append('<img src="'+downloadURL+'" width="100" height="100"/>');
+                    $('#fileList').append('<img src="' + downloadURL + '" width="100" height="100"/>');
 
                     var images = document.getElementById("images");
 
-                    if(images.value == "") {
+                    if (images.value == "") {
                         images.value = base64url;
                     } else {
                         images.value = images.value + "," + base64url
@@ -540,6 +560,7 @@
 </script>
 
 <script type="text/javascript">
+
     $(function () {
         $('.skin-minimal input').iCheck({
             checkboxClass: 'icheckbox-blue',
@@ -579,6 +600,33 @@
                     }
                 });
 
+            }
+        });
+
+        $('#venue_estate_type').change(function () {
+            var cur_type = $(this).val();
+
+            if (cur_type == "smokingVenue") {
+
+                //change marker icon
+                if (marker) {
+                    marker.setIcon(house_icon);
+                } else {
+                    marker.setIcon(hotel_icon);
+                }
+
+                //show/hide membership detail field
+                $('#membership_row').show();
+                $('#airbnb_row').hide();
+            } else {
+
+                if (marker) {
+                    marker.setIcon(hotel_icon);
+                }
+
+                //show/hide membership detail field
+                $('#membership_row').hide();
+                $('#airbnb_row').show();
             }
         });
     });

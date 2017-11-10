@@ -68,10 +68,11 @@
             </div>
         </div>
 
-        <div class="row cl">
+        <div class="row cl" id="membership_row">
             <label class="form-label col-xs-4 col-sm-2">Membership Detail：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="venue_membership_detail" name="membershipDetail">
+                <input type="text" class="input-text" value="" placeholder="" id="venue_membership_detail"
+                       name="membershipDetail">
             </div>
         </div>
 
@@ -177,7 +178,7 @@
                        style="width:90%">
             </div>
         </div>
-        <div class="row cl">
+        <div class="row cl hide" id="airbnb_row">
             <label class="form-label col-xs-4 col-sm-2">Airbnb：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="" class="input-text"
@@ -203,10 +204,10 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Photo Upload：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="file" id="venue_files" onchange="getFileName(this)" accept=".png, .jpg, .bmp, .JPEG, .JPG, .svg, .tiff, .gif">
+                <input type="file" id="venue_files" onchange="getFileName(this)"
+                       accept=".png, .jpg, .bmp, .JPEG, .JPG, .svg, .tiff, .gif">
             </div>
         </div>
-
 
 
         <div class="row cl">
@@ -225,7 +226,7 @@
 <script type="text/javascript" src="<?= asset('lib/jquery/1.9.1/jquery.min.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('lib/layer/2.4/layer.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('static/h-ui/js/H-ui.min.js') ?>"></script>
-<script type="text/javascript" src="<?= asset('static/h-ui.admin/js/H-ui.admin.js') ?>"></script>
+<!--script type="text/javascript" src="<?= asset('static/h-ui.admin/js/H-ui.admin.js') ?>"></script-->
 <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
@@ -261,6 +262,10 @@
 
 </script>
 <script type="text/javascript">
+
+    var house_icon = '../image/house_icon.png';
+    var hotel_icon = '../image/hotel_icon.png';
+
     // This example displays an address form, using the autocomplete feature
     // of the Google Places API to help users fill in the information.
 
@@ -294,15 +299,18 @@
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
 
-        var myCenter = new google.maps.LatLng(lat,lng);
-        var mapProp= {
-            center:myCenter,
-            zoom:14
+        var myCenter = new google.maps.LatLng(lat, lng);
+        var mapProp = {
+            center: myCenter,
+            zoom: 14
         };
-        map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-        marker = new google.maps.Marker({position:myCenter});
+        map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        marker = new google.maps.Marker({position: myCenter});
 
-        google.maps.event.addListener(map, 'click', function(event) {
+        //default: smoking
+        marker.setIcon(house_icon);
+
+        google.maps.event.addListener(map, 'click', function (event) {
             marker.position = event.latLng;
             marker.setMap(map);
             var oLng = document.getElementById("venue_lng");
@@ -331,8 +339,11 @@
         map.setCenter(marker.position);
 
         for (var component in componentForm) {
-            document.getElementById(component).value = '';
-            document.getElementById(component).disabled = false;
+            var comp_obj = document.getElementById(component);
+            if (comp_obj) {
+                comp_obj.value = '';
+                comp_obj.disabled = false;
+            }
         }
 
         // Get each component of the address from the place details
@@ -394,11 +405,11 @@
                     var base64url = btoa(downloadURL);
                     console.log("base64:", base64url);
 
-                    $('#fileList').append('<img src="'+downloadURL+'" width="100" height="100"/>');
+                    $('#fileList').append('<img src="' + downloadURL + '" width="100" height="100"/>');
 
                     var images = document.getElementById("images");
 
-                    if(images.value == "") {
+                    if (images.value == "") {
                         images.value = base64url;
                     } else {
                         images.value = images.value + "," + base64url
@@ -468,6 +479,33 @@
                     }
                 });
 
+            }
+        });
+
+        $('#venue_estate_type').change(function () {
+            var cur_type = $(this).val();
+
+            if (cur_type == "smokingVenue") {
+
+                //change marker icon
+                if (marker) {
+                    marker.setIcon(house_icon);
+                } else {
+                    marker.setIcon(hotel_icon);
+                }
+
+                //show/hide membership detail field
+                $('#membership_row').show();
+                $('#airbnb_row').hide();
+            } else {
+
+                if (marker) {
+                    marker.setIcon(hotel_icon);
+                }
+
+                //show/hide membership detail field
+                $('#membership_row').hide();
+                $('#airbnb_row').show();
             }
         });
     });

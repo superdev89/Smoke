@@ -331,6 +331,7 @@ class HomeController extends Controller
             }
         }
 
+        //get GMT timezone based off latitude, longitude
 
         $venue = [
             'name' => $name,
@@ -352,6 +353,7 @@ class HomeController extends Controller
             'open_hours' => $open_hours,
             'close_hours' => $close_hours,
             'photos' => $photos,
+            //'timezone' => $timezone,
 
             'confirm' => $confirm,
         ];
@@ -604,8 +606,6 @@ class HomeController extends Controller
         } else {
             $confirm = false;
         }
-
-
 
         $venue['name'] = $name;
         $venue['type'] = $type;
