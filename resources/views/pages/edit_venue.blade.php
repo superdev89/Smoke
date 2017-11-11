@@ -98,8 +98,7 @@
                 @endif
             </div>
         </div>
-
-        <div class="row cl @if(!empty($venue['estateType']) || $venue['estateType'] != 'smokingVenue') hide @endif" id="membership_row">
+        <div class="row cl @if(!empty($venue['estateType']) && $venue['estateType'] != 'smokingVenue') hide @endif" id="membership_row">
             <label class="form-label col-xs-4 col-sm-2">Membership Detail：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['membershipDetail']))
@@ -262,7 +261,7 @@
                 @endif
             </div>
         </div>
-        <div class="row cl @if(empty($venue['estateType']) || $venue['estateType'] == 'smokingVenue') hide @endif" id="airbnb_row">
+        <div class="row cl @if(empty($venue['estateType'])) hide @endif  @if (!empty($venue['estateType']) && $venue['estateType'] == 'smokingVenue') hide @endif" id="airbnb_row">
             <label class="form-label col-xs-4 col-sm-2">Airbnb：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['airbnb']))
@@ -423,7 +422,7 @@
 
         marker = new google.maps.Marker({position: myCenter});
 
-        @if(empty($venue['estateType']) || $venue['estateType'] == 'smokingVenue')
+        @if(empty($venue['estateType']) || (!empty($venue['estateType']) && $venue['estateType'] == 'smokingVenue'))
         marker.setIcon(leaf_icon);
         @else
         marker.setIcon(house_icon);
