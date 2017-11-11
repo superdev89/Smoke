@@ -377,7 +377,7 @@
 <script type="text/javascript">
 
     var house_icon = '../image/house_icon.png';
-    var hotel_icon = '../image/hotel_icon.png';
+    var leaf_icon = '../image/leaf_icon.png';
 
     // This example displays an address form, using the autocomplete feature
     // of the Google Places API to help users fill in the information.
@@ -424,9 +424,9 @@
         marker = new google.maps.Marker({position: myCenter});
 
         @if($venue['estateType'] == 'smokingVenue')
-        marker.setIcon(house_icon);
+        marker.setIcon(leaf_icon);
         @else
-        marker.setIcon(hotel_icon);
+        marker.setIcon(house_icon);
         @endif
 
         marker.setMap(map);
@@ -610,9 +610,7 @@
 
                 //change marker icon
                 if (marker) {
-                    marker.setIcon(house_icon);
-                } else {
-                    marker.setIcon(hotel_icon);
+                    marker.setIcon(leaf_icon);
                 }
 
                 //show/hide membership detail field
@@ -621,7 +619,7 @@
             } else {
 
                 if (marker) {
-                    marker.setIcon(hotel_icon);
+                    marker.setIcon(house_icon);
                 }
 
                 //show/hide membership detail field
