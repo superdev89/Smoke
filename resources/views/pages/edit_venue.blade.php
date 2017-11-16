@@ -28,8 +28,8 @@
     <link href="<?= asset('lib/webuploader/0.1.5/webuploader.css') ?>" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div class="page-container">
-    <form action="{{url('/venue')}}/{{$key}}" method="post" class="form form-horizontal" id="form-venue-add" style="max-height: 700px; overflow: auto;">
+<div class="page-container" id="edit_venue_page">
+    <form action="{{url('/venue')}}/{{$key}}" method="post" class="form form-horizontal" id="form-venue-add">
         {!! csrf_field() !!}
         <input type="hidden" name="key" value="{{$venue['id']}}">
         <input type="hidden" name="images" id="images" value="">
