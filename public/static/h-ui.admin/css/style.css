@@ -4,6 +4,7 @@
 @media (max-width: 1000px) {
     #form-venue-add {
         overflow-y: auto;
+        max-height: 110vh;
         padding-bottom:30px;
     }
 }
