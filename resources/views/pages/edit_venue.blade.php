@@ -29,7 +29,7 @@
 </head>
 <body>
 <div class="page-container">
-    <form action="{{url('/venue')}}/{{$key}}" method="post" class="form form-horizontal" id="form-venue-add">
+    <form action="{{url('/venue')}}/{{$key}}" method="post" class="form form-horizontal" id="form-venue-add" style="max-height: 700px; overflow: auto;">
         {!! csrf_field() !!}
         <input type="hidden" name="key" value="{{$venue['id']}}">
         <input type="hidden" name="images" id="images" value="">
