@@ -3,8 +3,8 @@
 
 @media (max-width: 1000px) {
     #form-venue-add {
-        max-height: 100vh;
         overflow-y: auto;
+        padding-bottom:30px;
     }
 }
 
