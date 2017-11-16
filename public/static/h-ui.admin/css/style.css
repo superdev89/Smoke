@@ -1,11 +1,17 @@
 @charset "utf-8";
 /* 你自己的样式 */
 
-@media (max-width: 1000px) {
+@media (max-device-width : 1024px){
     #form-venue-add {
         overflow-y: auto;
         max-height: 90vh;
         padding-bottom:30px;
     }
+}
+
+.f-14.td-manage a{
+    font-size: 20px;
+    display: block;
+    margin-bottom: 10px;
 }
 
