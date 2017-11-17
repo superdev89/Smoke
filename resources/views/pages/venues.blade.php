@@ -96,9 +96,9 @@
             <div class="cl pd-5 bg-1 bk-gray mt-20">
 				<span class="l">
 				{{--<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> Delete</a>--}}
-				<a class="btn btn-primary radius" data-title="Add" _href="{{url('/venues/add')}}"
-                   onclick="venue_add('Add Venue','{{url("/venues/add")}}')" href="javascript:;"><i
-                            class="Hui-iconfont">&#xe600;</i> Add</a>
+                    <a class="btn btn-primary radius" data-title="Add" _href="{{url('/venues/add')}}"
+                       onclick="venue_add('Add Venue','{{url("/venues/add")}}')" href="javascript:;"><i
+                                class="Hui-iconfont">&#xe600;</i> Add</a>
 				</span>
                 <span class="r">Result：<strong>{{count($venues)}}</strong></span>
             </div>
@@ -114,7 +114,7 @@
                         <th>Description</th>
                         <th width="120">Seats</th>
                         <th width="75">Phone</th>
-                        <th width="80">Weblink</th>
+                        <th>Weblink</th>
                         <th width="30">Verify</th>
                         <th width="60">Action</th>
                     </tr>
@@ -122,40 +122,45 @@
                     <tbody>
 
                     @forelse($venues as $v)
-                    {{--@if(!empty($v['confirm']) && $v['confirm'] == true)--}}
-                    <tr class="text-c">
-                        <td><input type="checkbox" value="" name=""></td>
-                        <td>{{$v["type"]}}</td>
-                        <td class="text-l"><u style="cursor:pointer" class="text-primary"
-                                              onClick="venue_edit('Edit Venue','{{url("/venues/")}}/{{$v["id"]}}','{{$v["id"]}}')"
-                                              title="Edit">{{$v["name"]}}</u></td>
-                        <td>{{$v["address"]}}</td>
-                        <td>{{str_limit($v["description"], $limit = 150, $end = '...')}}</td>
-                        <td>{{$v["num_of_seats"]}}</td>
-                        <td>{{$v["phone"]}}</td>
-                        <td>{{$v["weblink"]}}</td>
-                        <td class="td-status">
-                            @if(!empty($v['confirm']) && $v['confirm'] == true)
-                            <span class="label label-success radius">verified</span>
-                            @endif
-                        </td>
-                        <td class="f-14 td-manage">
-                            @if(empty($v['confirm']) || $v['confirm'] == false)
-                            <a style="text-decoration:none" onClick="venue_confirm(this,'{{$v["id"]}}')"
-                                                      href="javascript:;" title="Verify"><i class="Hui-iconfont">
-                                    &#xe6de;</i></a>
-                            @endif
-                            <a style="text-decoration:none" class="ml-5"
-                               onClick="venue_edit('Edit Venue','{{url("/venues")}}/{{$v["id"]}}','{{$v["id"]}}')" href="javascript:;" title="Edit Venue"><i
-                                        class="Hui-iconfont">&#xe6df;</i></a>
-                            <a style="text-decoration:none" class="ml-5" onClick="venue_del(this,'{{$v["id"]}}')"
-                               href="javascript:;" title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-                    </tr>
-                    {{--@endif--}}
+                        {{--@if(!empty($v['confirm']) && $v['confirm'] == true)--}}
+                        <tr class="text-c">
+                            <td><input type="checkbox" value="" name=""></td>
+                            <td>{{$v["type"]}}</td>
+                            <td class="text-l"><u style="cursor:pointer" class="text-primary"
+                                                  onClick="venue_edit('Edit Venue','{{url("/venues/")}}/{{$v["id"]}}','{{$v["id"]}}')"
+                                                  title="Edit">{{$v["name"]}}</u></td>
+                            <td>{{$v["address"]}}</td>
+                            <td>{{str_limit($v["description"], $limit = 150, $end = '...')}}</td>
+                            <td>{{$v["num_of_seats"]}}</td>
+                            <td>{{$v["phone"]}}</td>
+                            <td>
+                                @if ( parse_url($v["weblink"]) )
+                                    <a href="{{$v["weblink"]}}" target="_blank">{{$v["weblink"]}}</a>
+                                @endif
+                            </td>
+                            <td class="td-status">
+                                @if(!empty($v['confirm']) && $v['confirm'] == true)
+                                    <span class="label label-success radius">verified</span>
+                                @endif
+                            </td>
+                            <td class="f-14 td-manage">
+                                @if(empty($v['confirm']) || $v['confirm'] == false)
+                                    <a style="text-decoration:none" onClick="venue_confirm(this,'{{$v["id"]}}')"
+                                       href="javascript:;" title="Verify"><i class="Hui-iconfont">
+                                            &#xe6de;</i></a>
+                                @endif
+                                <a style="text-decoration:none" class="ml-5"
+                                   onClick="venue_edit('Edit Venue','{{url("/venues")}}/{{$v["id"]}}','{{$v["id"]}}')"
+                                   href="javascript:;" title="Edit Venue"><i
+                                            class="Hui-iconfont">&#xe6df;</i></a>
+                                <a style="text-decoration:none" class="ml-5" onClick="venue_del(this,'{{$v["id"]}}')"
+                                   href="javascript:;" title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                        </tr>
+                        {{--@endif--}}
                     @empty
-                    <tr class="text-c">
-                        <td colspan="11">No venues</td>
-                    </tr>
+                        <tr class="text-c">
+                            <td colspan="11">No venues</td>
+                        </tr>
                     @endforelse
                     </tbody>
                 </table>
@@ -184,45 +189,51 @@
                     <tbody>
 
                     @forelse($venues as $v)
-                    @if(empty($v['confirm']) || $v['confirm'] == false)
-                    <tr class="text-c">
-                        <td><input type="checkbox" value="" name=""></td>
-                        <td>{{$v["type"]}}</td>
-                        <td class="text-l"><u style="cursor:pointer" class="text-primary"
-                                              onClick="venue_edit('Edit Venue','{{url("/venues/")}}/{{$v["id"]}}','{{$v["id"]}}')"
-                                              title="Edit">{{$v["name"]}}</u></td>
-                        <td>{{$v["address"]}}</td>
-                        <td>{{str_limit($v["description"], $limit = 150, $end = '...')}}</td>
-                        <td>{{$v["num_of_seats"]}}</td>
-                        <td>{{$v["phone"]}}</td>
-                        <td>{{$v["weblink"]}}</td>
-                        <td>
-                            @if(!empty($v['time']))
-                            {{date('Y-m-d H:i:s',$v["time"])}}
-                            @endif
-                        </td>
-                        <td class="td-status">
-                            @if(!empty($v['confirm']) && $v['confirm'] == true)
-                            <span class="label label-success radius">verified</span>
-                            @endif
-                        </td>
-                        <td class="f-14 td-manage">
-                            @if(empty($v['confirm']) || $v['confirm'] == false)
-                            <a style="text-decoration:none" onClick="venue_confirm(this,'{{$v["id"]}}')"
-                                                      href="javascript:;" title="Verify"><i class="Hui-iconfont">
-                                    &#xe6de;</i></a>
-                            @endif
-                            <a style="text-decoration:none" class="ml-5"
-                               onClick="venue_edit('Edit Venue','{{url("/venues")}}/{{$v["id"]}}','{{$v["id"]}}')" href="javascript:;" title="Edit Venue"><i
-                                        class="Hui-iconfont">&#xe6df;</i></a>
-                            <a style="text-decoration:none" class="ml-5" onClick="venue_del(this,'{{$v["id"]}}')"
-                               href="javascript:;" title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-                    </tr>
-                    @endif
+                        @if(empty($v['confirm']) || $v['confirm'] == false)
+                            <tr class="text-c">
+                                <td><input type="checkbox" value="" name=""></td>
+                                <td>{{$v["type"]}}</td>
+                                <td class="text-l"><u style="cursor:pointer" class="text-primary"
+                                                      onClick="venue_edit('Edit Venue','{{url("/venues/")}}/{{$v["id"]}}','{{$v["id"]}}')"
+                                                      title="Edit">{{$v["name"]}}</u></td>
+                                <td>{{$v["address"]}}</td>
+                                <td>{{str_limit($v["description"], $limit = 150, $end = '...')}}</td>
+                                <td>{{$v["num_of_seats"]}}</td>
+                                <td>{{$v["phone"]}}</td>
+                                <td>
+                                    @if ( parse_url($v["weblink"]) )
+                                        <a href="{{$v["weblink"]}}" target="_blank">{{$v["weblink"]}}</a>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(!empty($v['time']))
+                                        {{date('Y-m-d H:i:s',$v["time"])}}
+                                    @endif
+                                </td>
+                                <td class="td-status">
+                                    @if(!empty($v['confirm']) && $v['confirm'] == true)
+                                        <span class="label label-success radius">verified</span>
+                                    @endif
+                                </td>
+                                <td class="f-14 td-manage">
+                                    @if(empty($v['confirm']) || $v['confirm'] == false)
+                                        <a style="text-decoration:none" onClick="venue_confirm(this,'{{$v["id"]}}')"
+                                           href="javascript:;" title="Verify"><i class="Hui-iconfont">
+                                                &#xe6de;</i></a>
+                                    @endif
+                                    <a style="text-decoration:none" class="ml-5"
+                                       onClick="venue_edit('Edit Venue','{{url("/venues")}}/{{$v["id"]}}','{{$v["id"]}}')"
+                                       href="javascript:;" title="Edit Venue"><i
+                                                class="Hui-iconfont">&#xe6df;</i></a>
+                                    <a style="text-decoration:none" class="ml-5"
+                                       onClick="venue_del(this,'{{$v["id"]}}')"
+                                       href="javascript:;" title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                            </tr>
+                        @endif
                     @empty
-                    <tr class="text-c">
-                        <td colspan="11">No venues</td>
-                    </tr>
+                        <tr class="text-c">
+                            <td colspan="11">No venues</td>
+                        </tr>
                     @endforelse
                     </tbody>
                 </table>
@@ -298,10 +309,10 @@
             shade: false,
             closeBtn: 0
         }, function () {
-    //        $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="venue_start(this,id)" href="javascript:;" title="Confirmation"><i class="Hui-iconfont">&#xe603;</i></a>');
+            //        $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="venue_start(this,id)" href="javascript:;" title="Confirmation"><i class="Hui-iconfont">&#xe603;</i></a>');
             $.ajax({
                 type: 'POST',
-                url: '{{url('/venues/')}}/'+ id +'/confirm',
+                url: '{{url('/venues/')}}/' + id + '/confirm',
                 dataType: 'json',
                 data: {
                     "_token": '{{ csrf_token() }}'
