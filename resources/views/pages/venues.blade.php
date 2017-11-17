@@ -111,10 +111,10 @@
                         <th width="120">Name</th>
                         <th width="80">Type</th>
                         <th width="120">Address</th>
-                        <th>Description</th>
+                        <th width="200">Description</th>
                         <th width="120">Seats</th>
                         <th width="75">Phone</th>
-                        <th>Weblink</th>
+                        <th width="200">Weblink</th>
                         <th width="30">Verify</th>
                         <th width="60">Action</th>
                     </tr>
@@ -177,10 +177,10 @@
                         <th width="120">Name</th>
                         <th width="80">Type</th>
                         <th width="120">Address</th>
-                        <th>Description</th>
+                        <th width="200">Description</th>
                         <th width="120">Seats</th>
                         <th width="75">Phone</th>
-                        <th width="80">Weblink</th>
+                        <th width="200">Weblink</th>
                         <th width="50">Uploaded Time</th>
                         <th width="30">Verify</th>
                         <th width="60">Action</th>
