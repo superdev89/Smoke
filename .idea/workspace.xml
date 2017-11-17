@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6744b335-fae1-4da8-a642-0b859d8561e2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/static/h-ui.admin/css/style.css" afterPath="$PROJECT_DIR$/public/static/h-ui.admin/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/venues.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/venues.blade.php" />
     </list>
     <ignored path="smokehere.iws" />
@@ -37,21 +36,21 @@
       <file leaf-file-name="venues.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/pages/venues.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+            <state relative-caret-position="204">
+              <caret line="238" column="93" selection-start-line="238" selection-start-column="93" selection-end-line="238" selection-end-column="93" />
               <folding>
-                <marker date="1510935279563" expanded="true" signature="11306:11381" ph="{...}" />
-                <marker date="1510935279563" expanded="true" signature="14530:14644" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="14742:14856" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="14940:15569" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="14963:15562" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="15008:15533" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="15281:15395" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="15458:15518" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="15623:15766" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="15782:16716" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="16286:16514" ph="..." />
-                <marker date="1510935279563" expanded="true" signature="16577:16681" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="11306:11381" ph="{...}" />
+                <marker date="1510936138616" expanded="true" signature="14473:14587" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="14685:14799" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="14883:15512" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="14906:15505" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="14951:15476" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="15224:15338" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="15401:15461" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="15566:15709" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="15725:16659" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="16229:16457" ph="..." />
+                <marker date="1510936138616" expanded="true" signature="16520:16624" ph="..." />
               </folding>
             </state>
           </provider>
@@ -102,8 +101,8 @@
         <option value="$PROJECT_DIR$/public/lib/layer/2.4/skin/layer.css" />
         <option value="$PROJECT_DIR$/public/lib/layer/2.4/layer.js" />
         <option value="$PROJECT_DIR$/resources/views/pages/edit_venue.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/pages/venues.blade.php" />
         <option value="$PROJECT_DIR$/public/static/h-ui.admin/css/style.css" />
+        <option value="$PROJECT_DIR$/resources/views/pages/venues.blade.php" />
       </list>
     </option>
   </component>
@@ -337,7 +336,7 @@
       <workItem from="1510738656657" duration="27000" />
       <workItem from="1510824739264" duration="8928000" />
       <workItem from="1510854958805" duration="26000" />
-      <workItem from="1510902740528" duration="10221000" />
+      <workItem from="1510902740528" duration="10392000" />
     </task>
     <task id="LOCAL-00001" summary="default url to http://">
       <created>1507055569162</created>
@@ -350,7 +349,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114438000" />
+    <option name="totallyTimeSpent" value="114609000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="6" />
@@ -741,21 +740,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/pages/venues.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+        <state relative-caret-position="204">
+          <caret line="238" column="93" selection-start-line="238" selection-start-column="93" selection-end-line="238" selection-end-column="93" />
           <folding>
-            <marker date="1510935279563" expanded="true" signature="11306:11381" ph="{...}" />
-            <marker date="1510935279563" expanded="true" signature="14530:14644" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="14742:14856" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="14940:15569" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="14963:15562" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="15008:15533" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="15281:15395" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="15458:15518" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="15623:15766" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="15782:16716" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="16286:16514" ph="..." />
-            <marker date="1510935279563" expanded="true" signature="16577:16681" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="11306:11381" ph="{...}" />
+            <marker date="1510936138616" expanded="true" signature="14473:14587" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="14685:14799" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="14883:15512" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="14906:15505" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="14951:15476" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="15224:15338" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="15401:15461" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="15566:15709" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="15725:16659" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="16229:16457" ph="..." />
+            <marker date="1510936138616" expanded="true" signature="16520:16624" ph="..." />
           </folding>
         </state>
       </provider>

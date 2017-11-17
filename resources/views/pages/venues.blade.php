@@ -236,8 +236,7 @@
                                     @if(empty($v['confirm']) || $v['confirm'] == false)
                                         <a style="text-decoration:none" onClick="venue_confirm(this,'{{$v["id"]}}')"
                                            href="javascript:;" title="Verify"><i
-                                                    class="Hui-iconfont Hui-iconfont-xiajia">
-                                                &#xe6de;</i></a>
+                                                    class="Hui-iconfont Hui-iconfont-xiajia"></i></a>
                                     @endif
                                     <a style="text-decoration:none" class="ml-5"
                                        onClick="venue_edit('Edit Venue','{{url("/venues")}}/{{$v["id"]}}','{{$v["id"]}}')"
