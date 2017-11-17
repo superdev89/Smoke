@@ -112,7 +112,6 @@
                         <th width="80">Type</th>
                         <th width="120">Address</th>
                         <th width="200">Description</th>
-                        <th width="120">Seats</th>
                         <th width="75">Phone</th>
                         <th width="200">Weblink</th>
                         <th width="30">Verify</th>
@@ -125,13 +124,22 @@
                         {{--@if(!empty($v['confirm']) && $v['confirm'] == true)--}}
                         <tr class="text-c">
                             <td><input type="checkbox" value="" name=""></td>
-                            <td>{{$v["type"]}}</td>
                             <td class="text-l"><u style="cursor:pointer" class="text-primary"
                                                   onClick="venue_edit('Edit Venue','{{url("/venues/")}}/{{$v["id"]}}','{{$v["id"]}}')"
                                                   title="Edit">{{$v["name"]}}</u></td>
+                            <td>
+                                @if(empty($v['estateType']))
+                                    Club
+                                @else
+                                    @if($v['estateType'] == 'smokingVenue')
+                                        Club
+                                    @else
+                                        Lodging
+                                    @endif
+                                @endif
+                            </td>
                             <td>{{$v["address"]}}</td>
                             <td>{{str_limit($v["description"], $limit = 150, $end = '...')}}</td>
-                            <td>{{$v["num_of_seats"]}}</td>
                             <td>{{$v["phone"]}}</td>
                             <td>
                                 @if ( parse_url($v["weblink"]) )
@@ -178,7 +186,6 @@
                         <th width="80">Type</th>
                         <th width="120">Address</th>
                         <th width="200">Description</th>
-                        <th width="120">Seats</th>
                         <th width="75">Phone</th>
                         <th width="200">Weblink</th>
                         <th width="50">Uploaded Time</th>
@@ -192,13 +199,22 @@
                         @if(empty($v['confirm']) || $v['confirm'] == false)
                             <tr class="text-c">
                                 <td><input type="checkbox" value="" name=""></td>
-                                <td>{{$v["type"]}}</td>
                                 <td class="text-l"><u style="cursor:pointer" class="text-primary"
                                                       onClick="venue_edit('Edit Venue','{{url("/venues/")}}/{{$v["id"]}}','{{$v["id"]}}')"
                                                       title="Edit">{{$v["name"]}}</u></td>
+                                <td>
+                                    @if(empty($v['estateType']))
+                                        Club
+                                    @else
+                                        @if($v['estateType'] == 'smokingVenue')
+                                            Club
+                                        @else
+                                            Lodging
+                                        @endif
+                                    @endif
+                                </td>
                                 <td>{{$v["address"]}}</td>
                                 <td>{{str_limit($v["description"], $limit = 150, $end = '...')}}</td>
-                                <td>{{$v["num_of_seats"]}}</td>
                                 <td>{{$v["phone"]}}</td>
                                 <td>
                                     @if ( parse_url($v["weblink"]) )
