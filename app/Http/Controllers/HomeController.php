@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Hash;
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HomeController extends Controller
 {
     private $serviceAccount, $firebase, $database, $reference;
+
     /**
      * Create a new controller instance.
      *
@@ -23,7 +25,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
 
-        $this->serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/firebase_credentials.json');
+        $this->serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/firebase_credentials.json');
         $this->firebase = (new Factory)
             ->withServiceAccount($this->serviceAccount)
             ->create();
@@ -44,8 +46,8 @@ class HomeController extends Controller
     }
 
 
-
-    public function showVenues(Request $request) {
+    public function showVenues(Request $request)
+    {
 
         $snapshot = $this->reference->getSnapshot();
 
@@ -56,42 +58,43 @@ class HomeController extends Controller
 
         return view('pages.venues', [
             'venues' => $venues,
-            'users'=> $users,
+            'users' => $users,
         ]);
 
     }
 
-    public function showAddVenue(Request $request) {
+    public function showAddVenue(Request $request)
+    {
         $key = $this->generateRandomString(16);
         return view('pages.add_venue', [
             'key' => $key
         ]);
     }
 
-    public function showEditVenue(Request $request, $id) {
-        $reference = $this->database->getReference('/venues/'.$id);
+    public function showEditVenue(Request $request, $id)
+    {
+        $reference = $this->database->getReference('/venues/' . $id);
         $snapshot = $reference->getSnapshot();
 
         $value = $snapshot->getValue();
 
-        if(empty($value)) {
+        if (empty($value)) {
             return "<h2>Oops! No entry found.</h2>";
         }
 
         $venue = collect($value);
 
-        if(empty($venue['id'])) {
+        if (empty($venue['id'])) {
             return "<h2>Oops! Error parsing this entry.</h2>";
         }
 
-        if(!empty($venue['photos'])) {
+        if (!empty($venue['photos'])) {
             $photo_urls_base64 = '';
-            foreach($venue['photos'] as $key=>$url)
-            {
-                if($photo_urls_base64 == '') {
+            foreach ($venue['photos'] as $key => $url) {
+                if ($photo_urls_base64 == '') {
                     $photo_urls_base64 = base64_encode($url);
                 } else {
-                    $photo_urls_base64 = $photo_urls_base64.",".base64_encode($url);
+                    $photo_urls_base64 = $photo_urls_base64 . "," . base64_encode($url);
                 }
             }
         } else {
@@ -105,52 +108,53 @@ class HomeController extends Controller
         ]);
     }
 
-    public function addVenue(Request $request) {
+    public function addVenue(Request $request)
+    {
         $key = $request->input('key');
 
-        if($request->has('confirm')) {
+        if ($request->has('confirm')) {
             $confirm = $request->input('confirm');
         } else {
             $confirm = false;
         }
 
-        if($request->has('name')) {
+        if ($request->has('name')) {
             $name = $request->input('name');
         } else {
             $name = 'no name';
         }
 
-        if($request->has('address')) {
+        if ($request->has('address')) {
             $address = $request->input('address');
         } else {
             $address = 'no address';
         }
 
-        if($request->has('lat')) {
+        if ($request->has('lat')) {
             $latitude = $request->input('lat');
         } else {
             $latitude = 0;
         }
 
-        if($request->has('lng')) {
+        if ($request->has('lng')) {
             $longitude = $request->input('lng');
         } else {
             $longitude = 0;
         }
 
-        if($request->has('description')) {
+        if ($request->has('description')) {
             $description = $request->input('description');
         } else {
             $description = '';
         }
 
-        if($request->has('membershipDetail')) {
+        if ($request->has('membershipDetail')) {
             $membershipDetail = $request->input('membershipDetail');
         } else {
             $membershipDetail = '';
         }
 
-        if($request->has('public')) {
+        if ($request->has('public')) {
             $public = $request->input('public');
 
 
@@ -162,7 +166,7 @@ class HomeController extends Controller
             $isPrivate = true;
         }
 
-        if($request->has('airbnb')) {
+        if ($request->has('airbnb')) {
             $airbnb = $request->input('airbnb');
         } else {
             $airbnb = '';
@@ -172,25 +176,25 @@ class HomeController extends Controller
         $type = $request->input('type');
         $estateType = $request->input('estateType');
 
-        if($request->has('phone')) {
+        if ($request->has('phone')) {
             $phone = $request->input('phone');
         } else {
             $phone = '';
         }
 
-        if($request->has('weblink')) {
+        if ($request->has('weblink')) {
             $weblink = $request->input('weblink');
         } else {
             $weblink = '';
         }
 
-        if($request->has('outdoor')) {
+        if ($request->has('outdoor')) {
             $outdoor = $request->input('outdoor');
         } else {
             $outdoor = false;
         }
 
-        if($request->has('wifi')) {
+        if ($request->has('wifi')) {
             $wifi = $request->input('wifi');
         } else {
             $wifi = false;
@@ -200,58 +204,58 @@ class HomeController extends Controller
         // open hours
         $open_hours = [];
 
-        if($request->has('Monday_open')) {
+        if ($request->has('Monday_open')) {
             $monday_open = $request->input('Monday_open');
 
-            if($monday_open != '---') {
+            if ($monday_open != '---') {
                 $open_hours['monday'] = $monday_open;
             }
         }
 
-        if($request->has('Tuesday_open')) {
+        if ($request->has('Tuesday_open')) {
             $tuesday_open = $request->input('Tuesday_open');
 
-            if($tuesday_open != '---') {
+            if ($tuesday_open != '---') {
                 $open_hours['tuesday'] = $tuesday_open;
             }
         }
 
-        if($request->has('Wednesday_open')) {
+        if ($request->has('Wednesday_open')) {
             $wednesday_open = $request->input('Wednesday_open');
 
-            if($wednesday_open != '---') {
+            if ($wednesday_open != '---') {
                 $open_hours['wednesday'] = $wednesday_open;
             }
         }
 
-        if($request->has('Thursday_open')) {
+        if ($request->has('Thursday_open')) {
             $thursday_open = $request->input('Thursday_open');
 
-            if($thursday_open != '---') {
+            if ($thursday_open != '---') {
                 $open_hours['thursday'] = $thursday_open;
             }
         }
 
-        if($request->has('Friday_open')) {
+        if ($request->has('Friday_open')) {
             $friday_open = $request->input('Friday_open');
 
-            if($friday_open != '---') {
+            if ($friday_open != '---') {
                 $open_hours['friday'] = $friday_open;
             }
         }
 
-        if($request->has('Saturday_open')) {
+        if ($request->has('Saturday_open')) {
             $saturday_open = $request->input('Saturday_open');
 
-            if($saturday_open != '---') {
+            if ($saturday_open != '---') {
                 $open_hours['saturday'] = $saturday_open;
             }
         }
 
-        if($request->has('Sunday_open')) {
+        if ($request->has('Sunday_open')) {
             $sunday_open = $request->input('Sunday_open');
 
-            if($sunday_open != '---') {
+            if ($sunday_open != '---') {
                 $open_hours['sunday'] = $sunday_open;
             }
         }
@@ -259,68 +263,68 @@ class HomeController extends Controller
         //close hours
         $close_hours = [];
 
-        if($request->has('Monday_close')) {
+        if ($request->has('Monday_close')) {
 
             $monday_close = $request->input('Monday_close');
 
-            if($monday_close != '---') {
+            if ($monday_close != '---') {
                 $close_hours['monday'] = $monday_close;
             }
         }
 
-        if($request->has('Tuesday_close')) {
+        if ($request->has('Tuesday_close')) {
             $tuesday_close = $request->input('Tuesday_close');
 
-            if($tuesday_close != '---') {
+            if ($tuesday_close != '---') {
                 $close_hours['tuesday'] = $tuesday_close;
             }
         }
 
-        if($request->has('Wednesday_close')) {
+        if ($request->has('Wednesday_close')) {
             $wednesday_close = $request->input('Wednesday_close');
 
-            if($wednesday_close != '---') {
+            if ($wednesday_close != '---') {
                 $close_hours['wednesday'] = $wednesday_close;
             }
         }
 
-        if($request->has('Thursday_close')) {
+        if ($request->has('Thursday_close')) {
             $thursday_close = $request->input('Thursday_close');
 
-            if($thursday_close != '---') {
+            if ($thursday_close != '---') {
                 $close_hours['thursday'] = $thursday_close;
             }
         }
 
-        if($request->has('Friday_close')) {
+        if ($request->has('Friday_close')) {
             $friday_close = $request->input('Friday_close');
 
-            if($friday_close != '---') {
+            if ($friday_close != '---') {
                 $close_hours['friday'] = $friday_close;
             }
         }
 
-        if($request->has('Saturday_close')) {
+        if ($request->has('Saturday_close')) {
             $saturday_close = $request->input('Saturday_close');
 
-            if($saturday_close != '---') {
+            if ($saturday_close != '---') {
                 $close_hours['saturday'] = $saturday_close;
             }
         }
 
-        if($request->has('Sunday_close')) {
+        if ($request->has('Sunday_close')) {
             $sunday_close = $request->input('Sunday_close');
 
-            if($sunday_close != '---') {
+            if ($sunday_close != '---') {
                 $close_hours['sunday'] = $sunday_close;
             }
         }
 
         $photos = [];
         $i = 0;
-        if($request->has('images')) {
+        if ($request->has('images')) {
             $images_str = $request->input('images');
-            if(!empty($images_str)) {
+            if (!empty($images_str)) {
                 $images_base64_array = explode(',', $images_str);
 
                 foreach ($images_base64_array as $base64) {
@@ -358,10 +362,11 @@ class HomeController extends Controller
             'confirm' => $confirm,
         ];
 
-        $this->database->getReference('venues/'.$key)->set($venue);
+        $this->database->getReference('venues/' . $key)->set($venue);
     }
 
-    function generateRandomString($length = 10) {
+    function generateRandomString($length = 10)
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -371,16 +376,18 @@ class HomeController extends Controller
         return $randomString;
     }
 
-    public function deleteVenue(Request $request, $id) {
-        $this->database->getReference('venues/'.$id)->remove();
+    public function deleteVenue(Request $request, $id)
+    {
+        $this->database->getReference('venues/' . $id)->remove();
         return response()->json([
             'success' => true
         ]);
     }
 
-    public function confirmVenue(Request $request, $id) {
-        $this->database->getReference('venues/'.$id)->update([
-            'confirm'=>true
+    public function confirmVenue(Request $request, $id)
+    {
+        $this->database->getReference('venues/' . $id)->update([
+            'confirm' => true
         ]);
 
         return response()->json([
@@ -388,53 +395,54 @@ class HomeController extends Controller
         ]);
     }
 
-    public function editVenue(Request $request, $id) {
+    public function editVenue(Request $request, $id)
+    {
         $key = $id;
 
-        $reference = $this->database->getReference('/venues/'.$id);
+        $reference = $this->database->getReference('/venues/' . $id);
         $snapshot = $reference->getSnapshot();
 
         $value = $snapshot->getValue();
 
         $venue = collect($value);
 
-        if($request->has('name')) {
+        if ($request->has('name')) {
             $name = $request->input('name');
         } else {
             $name = 'no name';
         }
 
-        if($request->has('address')) {
+        if ($request->has('address')) {
             $address = $request->input('address');
         } else {
             $address = 'no address';
         }
 
-        if($request->has('lat')) {
+        if ($request->has('lat')) {
             $latitude = $request->input('lat');
         } else {
             $latitude = 0;
         }
 
-        if($request->has('lng')) {
+        if ($request->has('lng')) {
             $longitude = $request->input('lng');
         } else {
             $longitude = 0;
         }
 
-        if($request->has('description')) {
+        if ($request->has('description')) {
             $description = $request->input('description');
         } else {
             $description = '';
         }
 
-        if($request->has('membershipDetail')) {
+        if ($request->has('membershipDetail')) {
             $membershipDetail = $request->input('membershipDetail');
         } else {
             $membershipDetail = '';
         }
 
-        if($request->has('public')) {
+        if ($request->has('public')) {
             $public = $request->input('public');
 
 
@@ -446,7 +454,7 @@ class HomeController extends Controller
             $isPrivate = true;
         }
 
-        if($request->has('airbnb')) {
+        if ($request->has('airbnb')) {
             $airbnb = $request->input('airbnb');
         } else {
             $airbnb = "";
@@ -457,25 +465,25 @@ class HomeController extends Controller
         $estateType = $request->input('estateType');
 
 
-        if($request->has('phone')) {
+        if ($request->has('phone')) {
             $phone = $request->input('phone');
         } else {
             $phone = '';
         }
 
-        if($request->has('weblink')) {
+        if ($request->has('weblink')) {
             $weblink = $request->input('weblink');
         } else {
             $weblink = '';
         }
 
-        if($request->has('outdoor')) {
+        if ($request->has('outdoor')) {
             $outdoor = $request->input('outdoor');
         } else {
             $outdoor = false;
         }
 
-        if($request->has('wifi')) {
+        if ($request->has('wifi')) {
             $wifi = $request->input('wifi');
         } else {
             $wifi = false;
@@ -485,58 +493,58 @@ class HomeController extends Controller
         // open hours
         $open_hours = [];
 
-        if($request->has('Monday_open')) {
+        if ($request->has('Monday_open')) {
             $monday_open = $request->input('Monday_open');
 
-            if($monday_open != '---') {
+            if ($monday_open != '---') {
                 $open_hours['monday'] = $monday_open;
             }
         }
 
-        if($request->has('Tuesday_open')) {
+        if ($request->has('Tuesday_open')) {
             $tuesday_open = $request->input('Tuesday_open');
 
-            if($tuesday_open != '---') {
+            if ($tuesday_open != '---') {
                 $open_hours['tuesday'] = $tuesday_open;
             }
         }
 
-        if($request->has('Wednesday_open')) {
+        if ($request->has('Wednesday_open')) {
             $wednesday_open = $request->input('Wednesday_open');
 
-            if($wednesday_open != '---') {
+            if ($wednesday_open != '---') {
                 $open_hours['wednesday'] = $wednesday_open;
             }
         }
 
-        if($request->has('Thursday_open')) {
+        if ($request->has('Thursday_open')) {
             $thursday_open = $request->input('Thursday_open');
 
-            if($thursday_open != '---') {
+            if ($thursday_open != '---') {
                 $open_hours['thursday'] = $thursday_open;
             }
         }
 
-        if($request->has('Friday_open')) {
+        if ($request->has('Friday_open')) {
             $friday_open = $request->input('Friday_open');
 
-            if($friday_open != '---') {
+            if ($friday_open != '---') {
                 $open_hours['friday'] = $friday_open;
             }
         }
 
-        if($request->has('Saturday_open')) {
+        if ($request->has('Saturday_open')) {
             $saturday_open = $request->input('Saturday_open');
 
-            if($saturday_open != '---') {
+            if ($saturday_open != '---') {
                 $open_hours['saturday'] = $saturday_open;
             }
         }
 
-        if($request->has('Sunday_open')) {
+        if ($request->has('Sunday_open')) {
             $sunday_open = $request->input('Sunday_open');
 
-            if($sunday_open != '---') {
+            if ($sunday_open != '---') {
                 $open_hours['sunday'] = $sunday_open;
             }
         }
@@ -544,64 +552,64 @@ class HomeController extends Controller
         //close hours
         $close_hours = [];
 
-        if($request->has('Monday_close')) {
+        if ($request->has('Monday_close')) {
 
             $monday_close = $request->input('Monday_close');
 
-            if($monday_close != '---') {
+            if ($monday_close != '---') {
                 $close_hours['monday'] = $monday_close;
             }
         }
 
-        if($request->has('Tuesday_close')) {
+        if ($request->has('Tuesday_close')) {
             $tuesday_close = $request->input('Tuesday_close');
 
-            if($tuesday_close != '---') {
+            if ($tuesday_close != '---') {
                 $close_hours['tuesday'] = $tuesday_close;
             }
         }
 
-        if($request->has('Wednesday_close')) {
+        if ($request->has('Wednesday_close')) {
             $wednesday_close = $request->input('Wednesday_close');
 
-            if($wednesday_close != '---') {
+            if ($wednesday_close != '---') {
                 $close_hours['wednesday'] = $wednesday_close;
             }
         }
 
-        if($request->has('Thursday_close')) {
+        if ($request->has('Thursday_close')) {
             $thursday_close = $request->input('Thursday_close');
 
-            if($thursday_close != '---') {
+            if ($thursday_close != '---') {
                 $close_hours['thursday'] = $thursday_close;
             }
         }
 
-        if($request->has('Friday_close')) {
+        if ($request->has('Friday_close')) {
             $friday_close = $request->input('Friday_close');
 
-            if($friday_close != '---') {
+            if ($friday_close != '---') {
                 $close_hours['friday'] = $friday_close;
             }
         }
 
-        if($request->has('Saturday_close')) {
+        if ($request->has('Saturday_close')) {
             $saturday_close = $request->input('Saturday_close');
 
-            if($saturday_close != '---') {
+            if ($saturday_close != '---') {
                 $close_hours['saturday'] = $saturday_close;
             }
         }
 
-        if($request->has('Sunday_close')) {
+        if ($request->has('Sunday_close')) {
             $sunday_close = $request->input('Sunday_close');
 
-            if($sunday_close != '---') {
+            if ($sunday_close != '---') {
                 $close_hours['sunday'] = $sunday_close;
             }
         }
 
-        if($request->has('confirm')) {
+        if ($request->has('confirm')) {
             $confirm = $request->input('confirm');
         } else {
             $confirm = false;
@@ -629,9 +637,9 @@ class HomeController extends Controller
 
 
         $i = 0;
-        if($request->has('images')) {
+        if ($request->has('images')) {
             $images_str = $request->input('images');
-            if(!empty($images_str)) {
+            if (!empty($images_str)) {
                 $photos = [];
 
                 $images_base64_array = explode(',', $images_str);
@@ -642,12 +650,70 @@ class HomeController extends Controller
                     $i++;
                 }
 
-                if(count($photos) > 0) {
+                if (count($photos) > 0) {
                     $venue['photos'] = $photos;
                 }
             }
         }
 
-        $this->database->getReference('venues/'.$key)->set($venue);
+        $this->database->getReference('venues/' . $key)->set($venue);
+    }
+
+    public function exportVenues($type)
+    {
+
+        $snapshot = $this->reference->getSnapshot();
+        $value = $snapshot->getValue();
+        $venues = collect($value);
+        $datas = $venues->toArray();
+
+        $venues_data = [];
+
+        //Define Spreadsheet headers
+        $venues_header = ['address', 'airbnb', 'confirm', 'description', 'estateType', 'id', 'isPrivate', 'latitude', 'longitude', 'membershipDetail', 'name',
+            'num_of_seats', 'outdoor', 'phone', 'photos', 'type', 'weblink', 'wifi', 'close_hours', 'open_hours'];
+
+        $venues_data[] = $venues_header;
+
+        foreach ($datas as $data) {
+
+            $venue_one = [];
+
+            foreach ($venues_header as $key0 => $header_name) {
+                if (array_key_exists($header_name, $data)) {
+
+                    if (is_array($data[$header_name])) {
+
+                        $data1_str = '';
+
+                        foreach ($data[$header_name] as $key1 => $data1) {
+                            $data1_str .= $key1 . '-' . $data1 . ',';
+                        }
+
+                        $data1_str = rtrim($data1_str, ',');
+
+                        $venue_one[$header_name] = $data1_str;
+
+                    } else {
+                        $venue_one[$header_name] = $data[$header_name];
+                    }
+                } else {
+                    $venue_one[$header_name] = '';
+                }
+            }
+
+            $venues_data[] = $venue_one;
+        }
+
+        return Excel::create('Venues', function ($excel) use ($venues_data) {
+
+            $excel->setTitle('Venues');
+            $excel->setCreator('admin.smokehereapp.com')->setCompany('BrainyApps');
+            $excel->setDescription('Verified and Pending Venues');
+
+            $excel->sheet('mySheet', function ($sheet) use ($venues_data) {
+                $sheet->fromArray($venues_data, null, 'A1', false, false);
+            });
+        })->download($type);
     }
 }

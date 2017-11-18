@@ -23,4 +23,4 @@ Route::post('/venue', 'HomeController@addVenue');
 Route::post('/venues/{id}', 'HomeController@editVenue');
 Route::delete('/venues/{id}', 'HomeController@deleteVenue');
 Route::post('/venues/{id}/confirm', 'HomeController@confirmVenue');
-
+Route::get('/venues/export/{type}', 'HomeController@exportVenues')->name('export_venues');

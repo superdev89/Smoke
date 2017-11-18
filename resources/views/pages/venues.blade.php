@@ -95,12 +95,15 @@
         <article class="cl pd-20">
             <div class="cl pd-5 bg-1 bk-gray mt-20">
 				<span class="l">
-				{{--<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> Delete</a>--}}
                     <a class="btn btn-primary radius" data-title="Add" _href="{{url('/venues/add')}}"
                        onclick="venue_add('Add Venue','{{url("/venues/add")}}')" href="javascript:;"><i
-                                class="Hui-iconfont">&#xe600;</i> Add</a>
+                                class="Hui-iconfont Hui-iconfont-add"></i> Add</a>
+
 				</span>
-                <span class="r">Result：<strong>{{count($venues)}}</strong></span>
+                <span class="r">
+                    Results：<strong>{{count($venues)}}</strong>&emsp;
+                    <a class="btn btn-primary radius" data-title="Export as Excel" href="{{url('/venues/export/csv')}}"><i class="Hui-iconfont Hui-iconfont-down"></i> Export</a>
+                </span>
             </div>
             <h3>Verified Venues & Uploaded Venues Awaiting Verification</h3>
             <div class="mt-20">
