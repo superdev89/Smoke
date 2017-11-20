@@ -102,7 +102,8 @@
 				</span>
                 <span class="r">
                     Results：<strong>{{count($venues)}}</strong>&emsp;
-                    <a class="btn btn-primary radius" data-title="Export as Excel" href="{{url('/venues/export/csv')}}"><i class="Hui-iconfont Hui-iconfont-down"></i> Export</a>
+                    <a class="btn btn-primary radius" data-title="Export as Excel" href="{{url('/venues/export/csv')}}"><i
+                                class="Hui-iconfont Hui-iconfont-down"></i> Export</a>
                 </span>
             </div>
             <h3>Verified Venues & Uploaded Venues Awaiting Verification</h3>
@@ -192,6 +193,7 @@
                         <th width="200">Description</th>
                         <th width="75">Phone</th>
                         <th width="200">Weblink</th>
+                        <th width="200">Contact Info</th>
                         <th width="50">UL Time</th>
                         <th width="30">Verify</th>
                         <th width="60">Action</th>
@@ -225,6 +227,25 @@
                                         <a href="{{$v["weblink"]}}" target="_blank">{{$v["weblink"]}}</a>
                                     @endif
                                 </td>
+                                <td class="">
+                                    @if(!empty($v['contact_info']))
+                                        @if(!empty($v['contact_info']['contact_name']))
+                                            Name: {{ $v['contact_info']['contact_name'] }}
+                                            <br>
+                                        @endif
+                                        @if(!empty($v['contact_info']['contact_title']))
+                                            Title: {{ $v['contact_info']['contact_title'] }}
+                                            <br>
+                                        @endif
+                                        @if(!empty($v['contact_info']['contact_email']))
+                                            Email: {{ $v['contact_info']['contact_email'] }}
+                                            <br>
+                                        @endif
+                                        @if(!empty($v['contact_info']['contact_phone']))
+                                            Phone: {{ $v['contact_info']['contact_phone'] }}
+                                        @endif
+                                    @endif
+                                </td>
                                 <td>
                                     @if(!empty($v['time']))
                                         {{date('Y-m-d H:i:s',$v["time"])}}
@@ -249,6 +270,7 @@
                                        onClick="venue_del(this,'{{$v["id"]}}')"
                                        href="javascript:;" title="Delete"><i class="Hui-iconfont Hui-iconfont-del3"></i></a>
                                 </td>
+
                             </tr>
                         @endif
                     @empty
@@ -278,10 +300,10 @@
     $('.table-sort').dataTable({
         "aaSorting": [[1, "desc"]],//默认第几个排序
         "bStateSave": true,//状态保存
-        "aoColumnDefs": [
-            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-            {"orderable": false, "aTargets": [0, 8]}// 不参与排序的列
-        ]
+//        "aoColumnDefs": [
+//            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+//            {"orderable": false, "aTargets": [0, 8]}// 不参与排序的列
+//        ]
     });
 
     /*资讯-添加*/

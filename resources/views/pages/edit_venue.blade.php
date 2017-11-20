@@ -98,7 +98,8 @@
                 @endif
             </div>
         </div>
-        <div class="row cl @if(!empty($venue['estateType']) && $venue['estateType'] != 'smokingVenue') hide @endif" id="membership_row">
+        <div class="row cl @if(!empty($venue['estateType']) && $venue['estateType'] != 'smokingVenue') hide @endif"
+             id="membership_row">
             <label class="form-label col-xs-4 col-sm-2">Membership Detail：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['membershipDetail']))
@@ -261,7 +262,8 @@
                 @endif
             </div>
         </div>
-        <div class="row cl @if(empty($venue['estateType'])) hide @endif  @if (!empty($venue['estateType']) && $venue['estateType'] == 'smokingVenue') hide @endif" id="airbnb_row">
+        <div class="row cl @if(empty($venue['estateType'])) hide @endif  @if (!empty($venue['estateType']) && $venue['estateType'] == 'smokingVenue') hide @endif"
+             id="airbnb_row">
             <label class="form-label col-xs-4 col-sm-2">Airbnb：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 @if(empty($venue['airbnb']))
@@ -322,6 +324,116 @@
             </div>
         </div>
 
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Contact Information：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+
+                <div class="row" style="padding-top:10px; padding-bottom:10px;">
+                    <div class="col-md-6">
+                        <div class="col-md-2 col-sm-3 col-xs-4">
+                            <label for="contact_name"> Name: </label>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-xs-8">
+                            @if ( !empty($venue['contact_info']) )
+                                @if (!empty ($venue['contact_info']['contact_name']))
+                                    <input type="text" name="contact_name" placeholder="" class="input-text"
+                                           id="contact_name"
+                                           value="{!!  $venue['contact_info']['contact_name'] !!}">
+                                @else
+                                    <input type="text" name="contact_name" placeholder="" class="input-text"
+                                           id="contact_name"
+                                           value="">
+                                @endif
+                            @else
+                                <input type="text" name="contact_name" placeholder="" class="input-text"
+                                       id="contact_name"
+                                       value="">
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-2 col-sm-3 col-xs-4">
+                            <label for="contact_title"> Title: </label>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-xs-8">
+
+                            @if ( !empty($venue['contact_info']) )
+                                @if (!empty ($venue['contact_info']['contact_title']))
+                                    <input type="text" name="contact_title" placeholder="" class="input-text"
+                                           id="contact_title"
+                                           value="{!!  $venue['contact_info']['contact_title'] !!}">
+                                @else
+                                    <input type="text" name="contact_title" placeholder="" class="input-text"
+                                           id="contact_title"
+                                           value="">
+                                @endif
+                            @else
+                                <input type="text" name="contact_title" placeholder="" class="input-text"
+                                       id="contact_title"
+                                       value="">
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px; padding-bottom:10px;">
+                    <div class="col-md-6">
+                        <div class="col-md-2 col-sm-3 col-xs-4">
+                            <label for="contact_email"> Email: </label>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-xs-8">
+                            @if ( !empty($venue['contact_info']) )
+                                @if (!empty ($venue['contact_info']['contact_email']))
+                                    <input type="email" name="contact_email" placeholder="" class="input-text"
+                                           id="contact_email"
+                                           value="{!!  $venue['contact_info']['contact_email'] !!}">
+                                @else
+                                    <input type="email" name="contact_email" placeholder="" class="input-text"
+                                           id="contact_email"
+                                           value="">
+                                @endif
+                            @else
+                                <input type="email" name="contact_email" placeholder="" class="input-text"
+                                       id="contact_email"
+                                       value="">
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-2 col-sm-3 col-xs-4">
+                            <label for="contact_phone"> Phone: </label>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-xs-8">
+
+                            @if ( !empty($venue['contact_info']) )
+                                @if (!empty ($venue['contact_info']['contact_phone']))
+                                    <input type="text" name="contact_phone" placeholder="" class="input-text"
+                                           id="contact_phone"
+                                           pattern="\(?\d{3})?\s?[\-]?\d{3}[\-]?\d{4}"
+                                           title="(ddd) ddd-dddd or ddd-ddd-dddd or 7 digites"
+                                           value="{!!  $venue['contact_info']['contact_phone'] !!}">
+                                @else
+                                    <input type="text" name="contact_phone" placeholder="" class="input-text"
+                                           id="contact_phone"
+                                           pattern="\(?\d{3})?\s?[\-]?\d{3}[\-]?\d{4}"
+                                           title="(ddd) ddd-dddd or ddd-ddd-dddd or 7 digites"
+                                           value="">
+                                @endif
+                            @else
+                                <input type="text" name="contact_phone" placeholder="" class="input-text"
+                                       id="contact_phone"
+                                       pattern="\(?\d{3})?\s?[\-]?\d{3}[\-]?\d{4}"
+                                       title="(ddd) ddd-dddd or ddd-ddd-dddd or 7 digites"
+                                       value="">
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                 <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i
@@ -349,6 +461,7 @@
 <script type="text/javascript" src="<?= asset('lib/webuploader/0.1.5/webuploader.min.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/ueditor.config.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('lib/ueditor/1.4.3/ueditor.all.min.js') ?>"></script>
+<script type="text/javascript" src="<?= asset('static/h-ui.admin/js/H-ui.admin.page.js') ?>"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSJff_oQeFbYObvFfMCUPdkzYf79LYkLo&libraries=places&callback=initAutocomplete"
         async defer></script>

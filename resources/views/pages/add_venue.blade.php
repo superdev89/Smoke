@@ -174,22 +174,19 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Phone：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="phone" id="venue_phone" placeholder="" value="" class="input-text"
-                       style="width:90%">
+                <input type="text" name="phone" id="venue_phone" placeholder="" value="" class="input-text">
             </div>
         </div>
         <div class="row cl hide" id="airbnb_row">
             <label class="form-label col-xs-4 col-sm-2">Airbnb：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="" class="input-text"
-                       style="width:90%">
+                <input type="text" name="airbnb" id="venue_airbnb" placeholder="" value="" class="input-text">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">Weblink：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="weblink" id="venue_weblink" placeholder="" value="http://" class="input-text"
-                       style="width:90%">
+                <input type="text" name="weblink" id="venue_weblink" placeholder="" value="http://" class="input-text">
             </div>
         </div>
 
@@ -209,6 +206,56 @@
             </div>
         </div>
 
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Contact Information：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+
+                <div class="row" style="padding-top:10px; padding-bottom:10px;">
+                    <div class="col-md-6">
+                        <div class="col-md-2 col-sm-3 col-xs-4">
+                            <label for="contact_name"> Name: </label>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-xs-8">
+                            <input type="text" name="contact_name" placeholder="" value="" class="input-text"
+                                   id="contact_name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-2 col-sm-3 col-xs-4">
+                            <label for="contact_title"> Title: </label>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-xs-8">
+                            <input type="text" name="contact_title" placeholder="" value="" class="input-text"
+                                   id="contact_title">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px; padding-bottom:10px;">
+                    <div class="col-md-6">
+                        <div class="col-md-2 col-sm-3 col-xs-4">
+                            <label for="contact_email"> Email: </label>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-xs-8">
+                            <input type="email" name="contact_email" placeholder="" value="" class="input-text"
+                                   id="contact_email">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-2 col-sm-3 col-xs-4">
+                            <label for="contact_phone"> Phone: </label>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-xs-8">
+                            <input type="text" name="contact_phone" placeholder="" value="" class="input-text"
+                                   pattern="\(?\d{3})?\s?[\-]?\d{3}[\-]?\d{4}"
+                                   title="(ddd) ddd-dddd or ddd-ddd-dddd or 7 digites"
+                                   id="contact_phone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
@@ -219,6 +266,7 @@
                     &nbsp;&nbsp;Cancel&nbsp;&nbsp;</button>
             </div>
         </div>
+
     </form>
 </div>
 
@@ -227,6 +275,7 @@
 <script type="text/javascript" src="<?= asset('lib/layer/2.4/layer.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('static/h-ui/js/H-ui.min.js') ?>"></script>
 <!--script type="text/javascript" src="<?= asset('static/h-ui.admin/js/H-ui.admin.js') ?>"></script-->
+<script type="text/javascript" src="<?= asset('static/h-ui.admin/js/H-ui.admin.page.js') ?>"></script>
 <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->

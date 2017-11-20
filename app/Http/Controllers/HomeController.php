@@ -335,6 +335,19 @@ class HomeController extends Controller
             }
         }
 
+
+        //contact information
+        $contact_name = $request->input('contact_name');
+        $contact_title = $request->input('contact_title');
+        $contact_email = $request->input('contact_email');
+        $contact_phone = $request->input('contact_phone');
+
+
+        //uploaded time
+        date_default_timezone_set("America/New_York");
+        $ul_time = time();
+
+
         //get GMT timezone based off latitude, longitude
 
         $venue = [
@@ -358,7 +371,13 @@ class HomeController extends Controller
             'close_hours' => $close_hours,
             'photos' => $photos,
             //'timezone' => $timezone,
-
+            'contact_info' => [
+                'contact_name' => $contact_name,
+                'contact_title' => $contact_title,
+                'contact_email' => $contact_email,
+                'contat_phone' => $contact_phone
+            ],
+            'time' => $ul_time,
             'confirm' => $confirm,
         ];
 
@@ -615,6 +634,18 @@ class HomeController extends Controller
             $confirm = false;
         }
 
+        $contact_name = $request->input('contact_name');
+        $contact_title = $request->input('contact_title');
+        $contact_email = $request->input('contact_email');
+        $contact_phone = $request->input('contact_phone');
+
+        $contact_info = [
+            'contact_name' => $contact_name,
+            'contact_title' => $contact_title,
+            'contact_email' => $contact_email,
+            'contat_phone' => $contact_phone
+        ];
+
         $venue['name'] = $name;
         $venue['type'] = $type;
         $venue['estateType'] = $estateType;
@@ -634,6 +665,7 @@ class HomeController extends Controller
         $venue['open_hours'] = $open_hours;
         $venue['close_hours'] = $close_hours;
         $venue['confirm'] = $confirm;
+        $venue['contact_info'] = $contact_info;
 
 
         $i = 0;
@@ -671,7 +703,7 @@ class HomeController extends Controller
 
         //Define Spreadsheet headers
         $venues_header = ['address', 'airbnb', 'confirm', 'description', 'estateType', 'id', 'isPrivate', 'latitude', 'longitude', 'membershipDetail', 'name',
-            'num_of_seats', 'outdoor', 'phone', 'photos', 'type', 'weblink', 'wifi', 'close_hours', 'open_hours'];
+            'num_of_seats', 'outdoor', 'phone', 'photos', 'type', 'weblink', 'wifi', 'close_hours', 'open_hours', 'contact_info'];
 
         $venues_data[] = $venues_header;
 
